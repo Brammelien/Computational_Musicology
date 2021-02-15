@@ -8,12 +8,48 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
+'''
 ## R Markdown
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+library(tidyverse)
+library(spotifyr)
+
+```
+
+```{r}
+juditha <- get_track_audio_features(c("2M5b9YLAgFroqWzeaZf86e", "3DBKc4ioGnMQLlbGQcFDIO"))
+alla <- get_album_tracks("7oI0E3DdTbD85rhMg19GSU")
+gilberto <- get_artist_audio_features("gilberto gil")
+ecm <- get_playlist_audio_features("", "37i9dQZF1DX8C9xQcOrE6T")
+
+ecm
+```
+```{r}
+juditha <- get_track_audio_features(c("2M5b9YLAgFroqWzeaZf86e", "3DBKc4ioGnMQLlbGQcFDIO"))
+alla <- get_album_tracks("7oI0E3DdTbD85rhMg19GSU")
+gilberto <- get_artist_audio_features("gilberto gil")
+ecm <- get_playlist_audio_features("", "1zN4nK6oHMo2dei2WWPtSL")
+
+
+```
+
+```{r}
+
+Zeroos <- get_playlist_audio_features("", "37i9dQZF1DX4o1oenSJRJd")
+Eighties <- get_playlist_audio_features("", "23xQYspGsaIsztrKTHM8cN")
+
+combined <-
+  bind_rows(
+    Zeroos %>% mutate(category = "Zeroos"),
+    Eighties %>% mutate(category = "Eighties")
+  )
+ggplot(combined, aes(x =energie , y =valence , color=playplist_name)
+```
 
 ```{r cars}
 summary(cars)
