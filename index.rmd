@@ -11,9 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 '''
 ## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+For my first representation I have tried to create an overview of the different versions of cover songs in my Corpus. Sadly I have had some trouble getting the artists names from Spotify which made me unable to give information about this. Even a more major issue I faced was the group_by function, which can only group songs that have the exact same title. Cover songs sadly do not always have exctly the same title. In the graph below you see an attempt to show a basic distribution of my Corpus based on the energy (x-axis) and valence (y-axis). I chose these two values to give an insight in the overal feel of a song according to spotify. With this I attempted to create a feeling of how far the feel of the cover songs was apart from the original (and possibly other covers of the same song), to give a stronger sense of the differences I attempted to draw lines between different versions of the same song.  
 
 ```{r}
 library(tidyverse)
@@ -22,45 +20,37 @@ library(spotifyr)
 ```
 
 ```{r}
-juditha <- get_track_audio_features(c("2M5b9YLAgFroqWzeaZf86e", "3DBKc4ioGnMQLlbGQcFDIO"))
-alla <- get_album_tracks("7oI0E3DdTbD85rhMg19GSU")
-gilberto <- get_artist_audio_features("gilberto gil")
-ecm <- get_playlist_audio_features("", "37i9dQZF1DX8C9xQcOrE6T")
 
-ecm
 ```
 ```{r}
-juditha <- get_track_audio_features(c("2M5b9YLAgFroqWzeaZf86e", "3DBKc4ioGnMQLlbGQcFDIO"))
-alla <- get_album_tracks("7oI0E3DdTbD85rhMg19GSU")
-gilberto <- get_artist_audio_features("gilberto gil")
-ecm <- get_playlist_audio_features("", "1zN4nK6oHMo2dei2WWPtSL")
 
+Magnus_Corpus <- get_playlist_audio_features("", "61rge4nRNpMipwrZ1SojP7")
 
 ```
 
 ```{r}
 
-Zeroos <- get_playlist_audio_features("", "37i9dQZF1DX4o1oenSJRJd")
-Eighties <- get_playlist_audio_features("", "23xQYspGsaIsztrKTHM8cN")
-
-combined <-
-  bind_rows(
-    Zeroos %>% mutate(category = "Zeroos"),
-    Eighties %>% mutate(category = "Eighties")
+# Zeroos <- get_playlist_audio_features("", "37i9dQZF1DX4o1oenSJRJd")
+# Eighties <- get_playlist_audio_features("", "23xQYspGsaIsztrKTHM8cN")
+# 
+# combined <-
+#   bind_rows(
+#     Zeroos %>% mutate(category = "Zeroos"),
+#     Eighties %>% mutate(category = "Eighties")
+#   )
+# ggplot(combined, aes(x =energie , y =valence , color=playplist_name)) + geom_point
+# 
+Ordered_magnus_corpus <- Magnus_Corpus[with(Magnus_Corpus, order(track.name)),]
+ggplot(Ordered_magnus_corpus , aes(x =energy , y =valence, color =track.popularity, group = track.name,)) + geom_point() + geom_line(col = 'gray', alpha = 0.6) +   geom_text(
+    aes(label=track.album.release_date),  
+    check_overlap = T
   )
-ggplot(combined, aes(x =energie , y =valence , color=playplist_name)
+
+
 ```
 
-```{r cars}
-summary(cars)
-```
 
-## Including Plots
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
