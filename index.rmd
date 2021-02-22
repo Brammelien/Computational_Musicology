@@ -1,56 +1,205 @@
 ---
-title: "First failed plot"
+title: "Dashes to my board"
 author: "B. Slangen"
 date: "2/15/2021"
-output: html_document
+output: 
+    flexdashboard::flex_dashboard:
+        storyboard: true
+        theme: flatly
+        orientation:  columns
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+
+library(forcats)
+library(flexdashboard)
+library(readr)
+library(lubridate)
+library(ggplot2)
+library(tidyverse)
+library(knitr)
+library(DT)
+library(spotifyr)
+library(compmus)
+library(plotly)
+knitr::opts_chunk$set(echo=TRUE)
 ```
 '''
-## R Markdown
 
-For my first representation I have tried to create an overview of the different versions of cover songs in my Corpus. Sadly I have had some trouble getting the artists names from Spotify which made me unable to give information about this. Even a more major issue I faced was the group_by function, which can only group songs that have the exact same title. Cover songs sadly do not always have exctly the same title. In the graph below you see an attempt to show a basic distribution of my Corpus based on the energy (x-axis) and valence (y-axis). I chose these two values to give an insight in the overal feel of a song according to spotify. With this I attempted to create a feeling of how far the feel of the cover songs was apart from the original (and possibly other covers of the same song), to give a stronger sense of the differences I attempted to draw lines between different versions of the same song.  
+INTRO
+====================================================================
 
-```{r}
-library(tidyverse)
-library(spotifyr)
+### Plot tab
+For my first representation I have tried to create an overview of the different versions of cover songs in my Corpus. Sadly I have had some trouble getting the artists names from Spotify which made me unable to give information about this. Even a more major issue I faced was the group_by function, which can only group songs that have the exact same title. Cover songs sadly do not always have exctly the same title. In the graph below you see an attempt to show a basic distribution of my Corpus based on the energy (x-axis) and valence (y-axis). I chose these two values to give an insight in the overal feel of a song according to spotify. With this I attempted to create a feeling of how far the feel of the cover songs was apart from the original (and possibly other covers of the same song), to give a stronger sense of the differences I attempted to draw lines between different versions of the same song. It is visble that I still struggle with correct imlementation, I seem to lose colors and visibility now I have corrected the issue with the song names.
 
-```
 
-```{r}
+### Wavferform tab
+As you can see ive included my waveform comparisons between different versions of Knocking on heavens door. I've chosen this one, because it shows absolutely no similariy what so ever. For the Bob Dylan version this makes sense as it is significantly shorter than the other version. However, the Eric Clapton version and the Guns 'N Roses version are very similar in duration. I think this is a very interesting representation on how different the "same" songs can be. I will try to show this more with graphs in the future, as making waveform analysis for all songs is not feasible not informative. I tried showing them in a rows overview, which is nicer, however because of the code that is shown this really messes up the overview. 
 
-```
-```{r}
+
+```{r include=FALSE}
 
 Magnus_Corpus <- get_playlist_audio_features("", "61rge4nRNpMipwrZ1SojP7")
+#Knocking <-
+#Kids <-
+#FoughttheLaw <-
+#Walkthisway <-
+#Higherground <-
+#Shotthesherif<-
 
 ```
 
+The messed up plot
+=====================================================================
 ```{r}
 
-# Zeroos <- get_playlist_audio_features("", "37i9dQZF1DX4o1oenSJRJd")
-# Eighties <- get_playlist_audio_features("", "23xQYspGsaIsztrKTHM8cN")
-# 
-# combined <-
-#   bind_rows(
-#     Zeroos %>% mutate(category = "Zeroos"),
-#     Eighties %>% mutate(category = "Eighties")
-#   )
-# ggplot(combined, aes(x =energie , y =valence , color=playplist_name)) + geom_point
-# 
-Ordered_magnus_corpus <- Magnus_Corpus[with(Magnus_Corpus, order(track.name)),]
-ggplot(Ordered_magnus_corpus , aes(x =energy , y =valence, color =track.popularity, group = track.name,)) + geom_point() + geom_line(col = 'gray', alpha = 0.6) +   geom_text(
-    aes(label=track.album.release_date),  
-    check_overlap = T
-  )
+Ordered_magnus_corpus <- Magnus_Corpus %>%
+    # Arrange data frame
+  group_by(track.name)
+  # Reorder countries by working hours in 2006
+
+ggplot(Ordered_magnus_corpus, aes(x = energy, y = valence, group = track.name)) +
+geom_point() +
+geom_path(arrow = arrow(length = unit(1.5, "mm"), type = "closed")) 
+
+
+
+          
 
 
 ```
 
 
 
+Waveform analysis
+=====================================================================
+
+Bobby VS. Eric
+-----------------------------------------------------------------------
 
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+#Bobby
+Boibby_Orginal <-
+  get_tidy_audio_analysis("6HSXNV0b4M4cLJ7ljgVVeh") %>%
+  select(segments) %>%
+  unnest(segments) %>%
+  select(start, duration, pitches)
+## Eric
+Ericslive <-
+  get_tidy_audio_analysis("5uhvUuQciVrP0p48NqSHaq") %>%
+  select(segments) %>%
+  unnest(segments) %>%
+  select(start, duration, pitches)
+
+compmus_long_distance(
+  Boibby_Orginal %>% mutate(pitches = map(pitches, compmus_normalise, "euclidean")),
+  Ericslive %>% mutate(pitches = map(pitches, compmus_normalise, "euclidean")),
+  feature = pitches,
+  method = "euclidean"
+) %>%
+  ggplot(
+    aes(
+      x = xstart + xduration / 2,
+      width = xduration,
+      y = ystart + yduration / 2,
+      height = yduration,
+      fill = d
+    )
+  ) +
+  geom_tile() +
+  coord_equal() +
+  labs(x = "Bob Dylan (original)", y = "Eric Clapton (Live)") +
+  theme_minimal() +
+  scale_fill_viridis_c(guide = NULL)
+
+```
+
+
+
+Bobby VS. The Guns
+-----------------------------------------------------------------------
+
+
+
+```{r}
+#Bobby
+Boibby_Orginal <-
+  get_tidy_audio_analysis("6HSXNV0b4M4cLJ7ljgVVeh") %>%
+  select(segments) %>%
+  unnest(segments) %>%
+  select(start, duration, pitches)
+## Theguns
+Theguns <-
+  get_tidy_audio_analysis("4JiEyzf0Md7KEFFGWDDdCr") %>%
+  select(segments) %>%
+  unnest(segments) %>%
+  select(start, duration, pitches)
+
+compmus_long_distance(
+  Boibby_Orginal %>% mutate(pitches = map(pitches, compmus_normalise, "euclidean")),
+  Theguns %>% mutate(pitches = map(pitches, compmus_normalise, "euclidean")),
+  feature = pitches,
+  method = "euclidean"
+) %>%
+  ggplot(
+    aes(
+      x = xstart + xduration / 2,
+      width = xduration,
+      y = ystart + yduration / 2,
+      height = yduration,
+      fill = d
+    )
+  ) +
+  geom_tile() +
+  coord_equal() +
+  labs(x = "Bob Dylan (original)", y = "Guns 'n Roses") +
+  theme_minimal() +
+  scale_fill_viridis_c(guide = NULL)
+
+```
+
+
+Eric VS. The Guns
+-----------------------------------------------------------------------
+```{r}
+# Eric
+Ericslive <-
+  get_tidy_audio_analysis("5uhvUuQciVrP0p48NqSHaq") %>%
+  select(segments) %>%
+  unnest(segments) %>%
+  select(start, duration, pitches)
+## Guns
+Theguns <-
+  get_tidy_audio_analysis("4JiEyzf0Md7KEFFGWDDdCr") %>%
+  select(segments) %>%
+  unnest(segments) %>%
+  select(start, duration, pitches)
+
+compmus_long_distance(
+  Ericslive %>% mutate(pitches = map(pitches, compmus_normalise, "euclidean")),
+  Theguns %>% mutate(pitches = map(pitches, compmus_normalise, "euclidean")),
+  feature = pitches,
+  method = "euclidean"
+) %>%
+  ggplot(
+    aes(
+      x = xstart + xduration / 2,
+      width = xduration,
+      y = ystart + yduration / 2,
+      height = yduration,
+      fill = d
+    )
+  ) +
+  geom_tile() +
+  coord_equal() +
+  labs(x = "Eric Clapton (Live)", y = "Guns 'n Roses") +
+  theme_minimal() +
+  scale_fill_viridis_c(guide = NULL)
+
+```
+
+
+
+
