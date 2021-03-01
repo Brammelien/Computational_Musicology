@@ -2,11 +2,9 @@
 title: "Dashes to my board"
 author: "B. Slangen"
 date: "2/15/2021"
-output: 
+output:
     flexdashboard::flex_dashboard:
-        storyboard: true
-        theme: flatly
-        orientation:  columns
+    theme: flatly
 ---
 
 ```{r setup, include=FALSE}
@@ -22,9 +20,210 @@ library(DT)
 library(spotifyr)
 library(compmus)
 library(plotly)
-knitr::opts_chunk$set(echo=TRUE)
+knitr::opts_chunk$set(echo=FALSE)
 ```
-'''
+
+
+Latest updates {.storyboard}
+=====================================================================
+
+
+### Dylan
+
+```{r dylan}
+dylan <-
+  get_tidy_audio_analysis('6HSXNV0b4M4cLJ7ljgVVeh') %>%
+  compmus_align(bars, segments) %>%
+  select(bars) %>%
+  unnest(bars) %>%
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "acentre", norm = "manhattan"
+      )
+  ) %>%
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "mean"
+      )
+  )
+bind_rows(
+  dylan %>% 
+    compmus_self_similarity(pitches, "aitchison") %>% 
+    mutate(d = d / max(d), type = "Chroma"),
+  dylan %>% 
+    compmus_self_similarity(timbre, "euclidean") %>% 
+    mutate(d = d / max(d), type = "Timbre")
+) %>%
+  mutate() %>% 
+  ggplot(
+    aes(
+      x = xstart + xduration / 2,
+      width = xduration,
+      y = ystart + yduration / 2,
+      height = yduration,
+      fill = d
+    )
+  ) +
+  geom_tile() +
+  coord_fixed() +
+  facet_wrap(~type) +
+  scale_fill_viridis_c(option = "E", guide = "none") +
+  theme_classic() + 
+  labs(x = "", y = "")
+```
+
+***
+Some lines here
+
+### Clapton
+
+
+```{r clapton}
+clapton <-
+  get_tidy_audio_analysis("5uhvUuQciVrP0p48NqSHaq") %>%
+  compmus_align(bars, segments) %>%
+  select(bars) %>%
+  unnest(bars) %>%
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "acentre", norm = "manhattan"
+      )
+  ) %>%
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "mean"
+      )
+  )
+bind_rows(
+  clapton %>% 
+    compmus_self_similarity(pitches, "aitchison") %>% 
+    mutate(d = d / max(d), type = "Chroma"),
+  clapton %>% 
+    compmus_self_similarity(timbre, "euclidean") %>% 
+    mutate(d = d / max(d), type = "Timbre")
+) %>%
+  mutate() %>% 
+  ggplot(
+    aes(
+      x = xstart + xduration / 2,
+      width = xduration,
+      y = ystart + yduration / 2,
+      height = yduration,
+      fill = d
+    )
+  ) +
+  geom_tile() +
+  coord_fixed() +
+  facet_wrap(~type) +
+  scale_fill_viridis_c(option = "E", guide = "none") +
+  theme_classic() + 
+  labs(x = "", y = "")
+
+```
+
+
+***
+Some text here
+
+### Roses
+
+```{r gunsnroses}
+
+
+gunsnroses<-
+  get_tidy_audio_analysis("4JiEyzf0Md7KEFFGWDDdCr") %>%
+  compmus_align(bars, segments) %>%
+  select(bars) %>%
+  unnest(bars) %>%
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "acentre", norm = "manhattan"
+      )
+  ) %>%
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "mean"
+      )
+  )
+bind_rows(
+  gunsnroses %>% 
+    compmus_self_similarity(pitches, "aitchison") %>% 
+    mutate(d = d / max(d), type = "Chroma"),
+  gunsnroses %>% 
+    compmus_self_similarity(timbre, "euclidean") %>% 
+    mutate(d = d / max(d), type = "Timbre")
+) %>%
+  mutate() %>% 
+  ggplot(
+    aes(
+      x = xstart + xduration / 2,
+      width = xduration,
+      y = ystart + yduration / 2,
+      height = yduration,
+      fill = d
+    )
+  ) +
+  geom_tile() +
+  coord_fixed() +
+  facet_wrap(~type) +
+  scale_fill_viridis_c(option = "E", guide = "none") +
+  theme_classic() + 
+  labs(x = "", y = "")
+
+```
+
+***
+Some lines here
+
+### Timbre comparison
+
+
+```{r timbre, echo=FALSE}
+timbredylan <- dylan %>%
+  compmus_gather_timbre() %>%
+  mutate(song = "dylan")
+
+timbreclapton <- clapton %>%
+  compmus_gather_timbre() %>%
+  mutate(song = "clapton")
+
+gunsnrosestimbre <-gunsnroses %>%
+  compmus_gather_timbre()%>%
+  mutate(song = "gunsnroses")
+
+bind_rows(timbredylan, timbreclapton, gunsnrosestimbre) %>%
+  ggplot(
+    aes(
+     x = start + duration / 2,
+      width = duration,
+      y = basis,
+      fill = value
+    )
+  )+
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  scale_fill_viridis_c() +          
+  facet_wrap((~song))
+  theme_classic()
+  
+
+
+```
+*** 
+We can see a bigger magnitude for the guns n roses song in more pitches than for the other two songs. This is to be expected hwne listening to these songs. The guns n roses version has the most varriation in it, and actually sounds "biggest". The clapton verson is much more calm and steady. Where the Dylan version is actual pretty quite and steady. Which is since its much smaller length also to be expected.
+
 
 INTRO
 ====================================================================
@@ -34,7 +233,7 @@ For my first representation I have tried to create an overview of the different 
 
 
 ### Wavferform tab
-As you can see ive included my waveform comparisons between different versions of Knocking on heavens door. I've chosen this one, because it shows absolutely no similariy what so ever. For the Bob Dylan version this makes sense as it is significantly shorter than the other version. However, the Eric Clapton version and the Guns 'N Roses version are very similar in duration. I think this is a very interesting representation on how different the "same" songs can be. I will try to show this more with graphs in the future, as making waveform analysis for all songs is not feasible not informative. I tried showing them in a rows overview, which is nicer, however because of the code that is shown this really messes up the overview. 
+As you can see ive included my waveform comparisons between different versions of Knocking on heavens door. I've chosen this one, because it shows absolutely no similarity what so ever. For the Bob Dylan version this makes sense as it is significantly shorter than the other version. However, the Eric Clapton version and the Guns 'N Roses version are very similar in duration. I think this is a very interesting representation on how different the "same" songs can be. I will try to show this more with graphs in the future, as making waveform analysis for all songs is not feasible nor informative. I tried showing them in a rows overview, which is nicer, however because of the code that is shown this really messes up the overview. 
 
 
 ```{r include=FALSE}
@@ -49,6 +248,8 @@ Magnus_Corpus <- get_playlist_audio_features("", "61rge4nRNpMipwrZ1SojP7")
 
 ```
 
+
+
 The messed up plot
 =====================================================================
 ```{r}
@@ -58,9 +259,11 @@ Ordered_magnus_corpus <- Magnus_Corpus %>%
   group_by(track.name)
   # Reorder countries by working hours in 2006
 
-ggplot(Ordered_magnus_corpus, aes(x = energy, y = valence, group = track.name)) +
+plot <- ggplot(Ordered_magnus_corpus, aes(x = energy, y = valence, group = track.name)) +
 geom_point() +
-geom_path(arrow = arrow(length = unit(1.5, "mm"), type = "closed")) 
+geom_path(arrow = arrow(length = unit(1.5, "mm"), type = "closed"))
+
+ggplotly(plot)
 
 
 
