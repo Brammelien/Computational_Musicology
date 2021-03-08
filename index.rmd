@@ -21,18 +21,109 @@ library(spotifyr)
 library(compmus)
 library(plotly)
 knitr::opts_chunk$set(echo=FALSE)
-```
+library(grid)
+library(gridExtra)
 
+```
 
 Latest updates {.storyboard}
 =====================================================================
 
 
-### Dylan
+```{r}
 
-```{r dylan}
-dylan <-
-  get_tidy_audio_analysis('6HSXNV0b4M4cLJ7ljgVVeh') %>%
+circshift <- function(v, n) {
+  if (n == 0) v else c(tail(v, n), head(v, -n))
+}
+
+#      C     C#    D     Eb    E     F     F#    G     Ab    A     Bb    B
+major_chord <-
+  c(   1,    0,    0,    0,    1,    0,    0,    1,    0,    0,    0,    0)
+minor_chord <-
+  c(   1,    0,    0,    1,    0,    0,    0,    1,    0,    0,    0,    0)
+seventh_chord <-
+  c(   1,    0,    0,    0,    1,    0,    0,    1,    0,    0,    1,    0)
+
+major_key <-
+  c(5, 3, 3.5, 2, 4.5, 4, 2, 4.5, 2.0, 3.5, 1.5, 4.0)
+minor_key <-
+  c(5.0, 2.0, 3.5, 4.5, 2.0, 4.0, 2.0, 4.5, 3.5, 2.0, 1.5, 4.0)
+
+chord_templates <-
+  tribble(
+    ~name, ~template,
+    "Gb:7", circshift(seventh_chord, 6),
+    "Gb:maj", circshift(major_chord, 6),
+    "Bb:min", circshift(minor_chord, 10),
+    "Db:maj", circshift(major_chord, 1),
+    "F:min", circshift(minor_chord, 5),
+    "Ab:7", circshift(seventh_chord, 8),
+    "Ab:maj", circshift(major_chord, 8),
+    "C:min", circshift(minor_chord, 0),
+    "Eb:7", circshift(seventh_chord, 3),
+    "Eb:maj", circshift(major_chord, 3),
+    "G:min", circshift(minor_chord, 7),
+    "Bb:7", circshift(seventh_chord, 10),
+    "Bb:maj", circshift(major_chord, 10),
+    "D:min", circshift(minor_chord, 2),
+    "F:7", circshift(seventh_chord, 5),
+    "F:maj", circshift(major_chord, 5),
+    "A:min", circshift(minor_chord, 9),
+    "C:7", circshift(seventh_chord, 0),
+    "C:maj", circshift(major_chord, 0),
+    "E:min", circshift(minor_chord, 4),
+    "G:7", circshift(seventh_chord, 7),
+    "G:maj", circshift(major_chord, 7),
+    "B:min", circshift(minor_chord, 11),
+    "D:7", circshift(seventh_chord, 2),
+    "D:maj", circshift(major_chord, 2),
+    "F#:min", circshift(minor_chord, 6),
+    "A:7", circshift(seventh_chord, 9),
+    "A:maj", circshift(major_chord, 9),
+    "C#:min", circshift(minor_chord, 1),
+    "E:7", circshift(seventh_chord, 4),
+    "E:maj", circshift(major_chord, 4),
+    "G#:min", circshift(minor_chord, 8),
+    "B:7", circshift(seventh_chord, 11),
+    "B:maj", circshift(major_chord, 11),
+    "D#:min", circshift(minor_chord, 3)
+  )
+
+key_templates <-
+  tribble(
+    ~name, ~template,
+    "Gb:maj", circshift(major_key, 6),
+    "Bb:min", circshift(minor_key, 10),
+    "Db:maj", circshift(major_key, 1),
+    "F:min", circshift(minor_key, 5),
+    "Ab:maj", circshift(major_key, 8),
+    "C:min", circshift(minor_key, 0),
+    "Eb:maj", circshift(major_key, 3),
+    "G:min", circshift(minor_key, 7),
+    "Bb:maj", circshift(major_key, 10),
+    "D:min", circshift(minor_key, 2),
+    "F:maj", circshift(major_key, 5),
+    "A:min", circshift(minor_key, 9),
+    "C:maj", circshift(major_key, 0),
+    "E:min", circshift(minor_key, 4),
+    "G:maj", circshift(major_key, 7),
+    "B:min", circshift(minor_key, 11),
+    "D:maj", circshift(major_key, 2),
+    "F#:min", circshift(minor_key, 6),
+    "A:maj", circshift(major_key, 9),
+    "C#:min", circshift(minor_key, 1),
+    "E:maj", circshift(major_key, 4),
+    "G#:min", circshift(minor_key, 8),
+    "B:maj", circshift(major_key, 11),
+    "D#:min", circshift(minor_key, 3)
+  )
+```
+
+
+
+```{r}
+Dylan_chords <-
+  get_tidy_audio_analysis("6HSXNV0b4M4cLJ7ljgVVeh") %>%
   compmus_align(bars, segments) %>%
   select(bars) %>%
   unnest(bars) %>%
@@ -40,50 +131,32 @@ dylan <-
     pitches =
       map(segments,
         compmus_summarise, pitches,
-        method = "acentre", norm = "manhattan"
+        method = "mean", norm = "manhattan"
       )
-  ) %>%
-  mutate(
-    timbre =
-      map(segments,
-        compmus_summarise, timbre,
-        method = "mean"
-      )
-  )
-bind_rows(
-  dylan %>% 
-    compmus_self_similarity(pitches, "aitchison") %>% 
-    mutate(d = d / max(d), type = "Chroma"),
-  dylan %>% 
-    compmus_self_similarity(timbre, "euclidean") %>% 
-    mutate(d = d / max(d), type = "Timbre")
-) %>%
-  mutate() %>% 
+  )  
+
+
+Plot1 <- Dylan_chords %>% 
+  compmus_match_pitch_template(
+    chord_templates,         # Change to chord_templates if descired
+    method = "euclidean",  # Try different distance metrics
+    norm = "manhattan"     # Try different norms
+  )  
+
+Dylan <- Plot1 %>%
   ggplot(
-    aes(
-      x = xstart + xduration / 2,
-      width = xduration,
-      y = ystart + yduration / 2,
-      height = yduration,
-      fill = d
-    )
+    aes(x = start + duration / 2, width = duration, y = name, fill = d)
   ) +
   geom_tile() +
-  coord_fixed() +
-  facet_wrap(~type) +
-  scale_fill_viridis_c(option = "E", guide = "none") +
-  theme_classic() + 
-  labs(x = "", y = "")
+  scale_fill_viridis_c(guide = "none") +
+  theme_classic() +
+  labs(x = "Time (s)", y = "") +
+  xlim(55, 85)
+
 ```
 
-***
-Some lines here
-
-### Clapton
-
-
-```{r clapton}
-clapton <-
+```{r}
+Eric_chords <-
   get_tidy_audio_analysis("5uhvUuQciVrP0p48NqSHaq") %>%
   compmus_align(bars, segments) %>%
   select(bars) %>%
@@ -92,53 +165,30 @@ clapton <-
     pitches =
       map(segments,
         compmus_summarise, pitches,
-        method = "acentre", norm = "manhattan"
-      )
-  ) %>%
-  mutate(
-    timbre =
-      map(segments,
-        compmus_summarise, timbre,
-        method = "mean"
+        method = "mean", norm = "manhattan"
       )
   )
-bind_rows(
-  clapton %>% 
-    compmus_self_similarity(pitches, "aitchison") %>% 
-    mutate(d = d / max(d), type = "Chroma"),
-  clapton %>% 
-    compmus_self_similarity(timbre, "euclidean") %>% 
-    mutate(d = d / max(d), type = "Timbre")
-) %>%
-  mutate() %>% 
+
+Plot2 <- Eric_chords %>% 
+  compmus_match_pitch_template(
+    chord_templates,         # Change to chord_templates if descired
+    method = "euclidean",  # Try different distance metrics
+    norm = "manhattan"     # Try different norms
+  )  
+Ericplot <- Plot2%>%
   ggplot(
-    aes(
-      x = xstart + xduration / 2,
-      width = xduration,
-      y = ystart + yduration / 2,
-      height = yduration,
-      fill = d
-    )
+    aes(x = start + duration / 2, width = duration, y = name, fill = d)
   ) +
   geom_tile() +
-  coord_fixed() +
-  facet_wrap(~type) +
-  scale_fill_viridis_c(option = "E", guide = "none") +
-  theme_classic() + 
-  labs(x = "", y = "")
+  scale_fill_viridis_c(guide = "none") +
+  theme_classic() +
+  labs(x = "Time (s)", y = "") +
+  xlim(65, 105)
 
 ```
 
-
-***
-Some text here
-
-### Roses
-
-```{r gunsnroses}
-
-
-gunsnroses<-
+```{r}
+Guns_chords <-
   get_tidy_audio_analysis("4JiEyzf0Md7KEFFGWDDdCr") %>%
   compmus_align(bars, segments) %>%
   select(bars) %>%
@@ -147,83 +197,147 @@ gunsnroses<-
     pitches =
       map(segments,
         compmus_summarise, pitches,
-        method = "acentre", norm = "manhattan"
+        method = "mean", norm = "manhattan"
       )
   ) %>%
-  mutate(
-    timbre =
-      map(segments,
-        compmus_summarise, timbre,
-        method = "mean"
-      )
-  )
-bind_rows(
-  gunsnroses %>% 
-    compmus_self_similarity(pitches, "aitchison") %>% 
-    mutate(d = d / max(d), type = "Chroma"),
-  gunsnroses %>% 
-    compmus_self_similarity(timbre, "euclidean") %>% 
-    mutate(d = d / max(d), type = "Timbre")
-) %>%
-  mutate() %>% 
+  mutate(song = "Guns")
+
+plot3 <- Guns_chords %>% 
+  compmus_match_pitch_template(
+    chord_templates,         # Change to chord_templates if descired
+    method = "euclidean",  # Try different distance metrics
+    norm = "manhattan"     # Try different norms
+  ) 
+
+Gunsplot <- plot3 %>%
   ggplot(
-    aes(
-      x = xstart + xduration / 2,
-      width = xduration,
-      y = ystart + yduration / 2,
-      height = yduration,
-      fill = d
-    )
+    aes(x = start + duration / 2, width = duration, y = name, fill = d)
   ) +
   geom_tile() +
-  coord_fixed() +
-  facet_wrap(~type) +
-  scale_fill_viridis_c(option = "E", guide = "none") +
-  theme_classic() + 
-  labs(x = "", y = "")
+  scale_fill_viridis_c(guide = "none") +
+  theme_classic() +
+  labs(x = "Time (s)", y = "") +
+  xlim(52, 90)
+
+```
+
+```{r}
+combinedchords <-
+  Plot1 %>%
+  mutate(song = " Dylan") %>%
+  bind_rows(Plot2 %>% mutate(song =  "Eric")) %>%
+  bind_rows(plot3 %>% mutate(song =  "guns"))
+
+
+
+```
+
+### pitches
+
+```{r} 
+
+combinedchords %>%
+  ggplot(
+    aes(x = start + duration / 2, width = duration, y = name, fill = d)
+  ) +
+  geom_tile() +
+  scale_fill_viridis_c(guide = "none") +
+  theme_classic() +
+  labs(x = "Time (s)", y = "") +
+  facet_wrap(~song, scales = "free")
 
 ```
 
 ***
-Some lines here
 
-### Timbre comparison
+Considering the differences in length and timing of the songs, the tile size of the dylan song is slightly bigger than the other ones. However between the Bob Dylan version and Eric Clapton we can observe very clear similarities in chord progression. The E flat 7 chords, Fmaj and Dminor are both very clearly visible in the graph, a little less but also clearly visible is the B flat 7 chord. When comparing it with the Guns 'n Roses version we see a little less clearly that the same chords are used, however here the Eflat 7 chords is also reoccurring. Interstingly enough the Bob Dylan version highest (represented) clear chord is A7, which we see in all three, but for the Eric clapton and Guns'n Roses version we see pattern occurence around B:7 and G#min aswell. From this we can conlude that even though these songs are very different to the ear, the chords (and keys) used are very similar.
 
 
-```{r timbre, echo=FALSE}
-timbredylan <- dylan %>%
-  compmus_gather_timbre() %>%
-  mutate(song = "dylan")
+### irrelevant
 
-timbreclapton <- clapton %>%
-  compmus_gather_timbre() %>%
-  mutate(song = "clapton")
+```{r}
+bebop <-
+  get_playlist_audio_features(
+    "thesoundsofspotify",
+    "55s8gstHcaCyfU47mQgLrB"
+  ) %>%
+  slice(1:30) %>%
+  add_audio_analysis()
+bigband <-
+  get_playlist_audio_features(
+    "thesoundsofspotify",
+    "2cjIvuw4VVOQSeUAZfNiqY"
+  ) %>%
+  slice(1:30) %>%
+  add_audio_analysis()
+jazz <-
+  bebop %>%
+  mutate(genre = "Bebop") %>%
+  bind_rows(bigband %>% mutate(genre = "Big Band"))
 
-gunsnrosestimbre <-gunsnroses %>%
-  compmus_gather_timbre()%>%
-  mutate(song = "gunsnroses")
-
-bind_rows(timbredylan, timbreclapton, gunsnrosestimbre) %>%
+jazz %>%
+  mutate(
+    sections =
+      map(
+        sections,                                    # sections or segments
+        summarise_at,
+        vars(tempo, loudness, duration),             # features of interest
+        list(section_mean = mean, section_sd = sd)   # aggregation functions
+      )
+  ) %>%
+  unnest(sections) %>%
   ggplot(
     aes(
-     x = start + duration / 2,
-      width = duration,
-      y = basis,
-      fill = value
+      x = tempo,
+      y = tempo_section_sd,
+      colour = genre,
+      alpha = loudness
     )
-  )+
-  geom_tile() +
-  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
-  scale_fill_viridis_c() +          
-  facet_wrap((~song))
-  theme_classic()
-  
-
-
+  ) +
+  geom_point(aes(size = duration / 60)) +
+  geom_rug() +
+  theme_minimal() +
+  ylim(0, 5) +
+  labs(
+    x = "Mean Tempo (bpm)",
+    y = "SD Tempo",
+    colour = "Genre",
+    size = "Duration (min)",
+    alpha = "Volume (dBFS)"
+  )
 ```
 *** 
-We can see a bigger magnitude for the guns n roses song in more pitches than for the other two songs. This is to be expected hwne listening to these songs. The guns n roses version has the most varriation in it, and actually sounds "biggest". The clapton verson is much more calm and steady. Where the Dylan version is actual pretty quite and steady. Which is since its much smaller length also to be expected.
+Some text here
 
+### irrelevant
+
+```{r} 
+
+jazz <-
+  bebop %>%
+  mutate(genre = "Bebop") %>%
+  bind_rows(bigband %>% mutate(genre = "Big Band"))
+jazz %>%
+  mutate(
+    timbre =
+      map(
+        segments,
+        compmus_summarise,
+        timbre,
+        method = "mean"
+      )
+  ) %>%
+  select(genre, timbre) %>%
+  compmus_gather_timbre() %>%
+  ggplot(aes(x = basis, y = value, fill = genre)) +
+  geom_violin() +
+  scale_fill_viridis_d() +
+  labs(x = "Spotify Timbre Coefficients", y = "", fill = "Genre")
+
+```
+
+*** 
+Some text here
 
 INTRO
 ====================================================================
@@ -406,3 +520,204 @@ compmus_long_distance(
 
 
 
+
+
+pitch and timbre {.storyboard}
+=====================================================================
+
+
+### Dylan
+
+```{r dylan}
+dylan <-
+  get_tidy_audio_analysis('6HSXNV0b4M4cLJ7ljgVVeh') %>%
+  compmus_align(bars, segments) %>%
+  select(bars) %>%
+  unnest(bars) %>%
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "acentre", norm = "manhattan"
+      )
+  ) %>%
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "mean"
+      )
+  )
+bind_rows(
+  dylan %>% 
+    compmus_self_similarity(pitches, "aitchison") %>% 
+    mutate(d = d / max(d), type = "Chroma"),
+  dylan %>% 
+    compmus_self_similarity(timbre, "euclidean") %>% 
+    mutate(d = d / max(d), type = "Timbre")
+) %>%
+  mutate() %>% 
+  ggplot(
+    aes(
+      x = xstart + xduration / 2,
+      width = xduration,
+      y = ystart + yduration / 2,
+      height = yduration,
+      fill = d
+    )
+  ) +
+  geom_tile() +
+  coord_fixed() +
+  facet_wrap(~type) +
+  scale_fill_viridis_c(option = "E", guide = "none") +
+  theme_classic() + 
+  labs(x = "", y = "")
+```
+
+***
+Some lines here
+
+### Clapton
+
+
+```{r clapton}
+clapton <-
+  get_tidy_audio_analysis("5uhvUuQciVrP0p48NqSHaq") %>%
+  compmus_align(bars, segments) %>%
+  select(bars) %>%
+  unnest(bars) %>%
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "acentre", norm = "manhattan"
+      )
+  ) %>%
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "mean"
+      )
+  )
+bind_rows(
+  clapton %>% 
+    compmus_self_similarity(pitches, "aitchison") %>% 
+    mutate(d = d / max(d), type = "Chroma"),
+  clapton %>% 
+    compmus_self_similarity(timbre, "euclidean") %>% 
+    mutate(d = d / max(d), type = "Timbre")
+) %>%
+  mutate() %>% 
+  ggplot(
+    aes(
+      x = xstart + xduration / 2,
+      width = xduration,
+      y = ystart + yduration / 2,
+      height = yduration,
+      fill = d
+    )
+  ) +
+  geom_tile() +
+  coord_fixed() +
+  facet_wrap(~type) +
+  scale_fill_viridis_c(option = "E", guide = "none") +
+  theme_classic() + 
+  labs(x = "", y = "")
+
+```
+
+***
+Some text here
+
+### Roses
+
+```{r gunsnroses}
+
+
+gunsnroses<-
+  get_tidy_audio_analysis("4JiEyzf0Md7KEFFGWDDdCr") %>%
+  compmus_align(bars, segments) %>%
+  select(bars) %>%
+  unnest(bars) %>%
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "acentre", norm = "manhattan"
+      )
+  ) %>%
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "mean"
+      )
+  )
+bind_rows(
+  gunsnroses %>% 
+    compmus_self_similarity(pitches, "aitchison") %>% 
+    mutate(d = d / max(d), type = "Chroma"),
+  gunsnroses %>% 
+    compmus_self_similarity(timbre, "euclidean") %>% 
+    mutate(d = d / max(d), type = "Timbre")
+) %>%
+  mutate() %>% 
+  ggplot(
+    aes(
+      x = xstart + xduration / 2,
+      width = xduration,
+      y = ystart + yduration / 2,
+      height = yduration,
+      fill = d
+    )
+  ) +
+  geom_tile() +
+  coord_fixed() +
+  facet_wrap(~type) +
+  scale_fill_viridis_c(option = "E", guide = "none") +
+  theme_classic() + 
+  labs(x = "", y = "")
+
+```
+
+***
+Some lines here
+
+### Timbre comparison
+
+
+```{r timbre, echo=FALSE}
+timbredylan <- dylan %>%
+  compmus_gather_timbre() %>%
+  mutate(song = "dylan")
+
+timbreclapton <- clapton %>%
+  compmus_gather_timbre() %>%
+  mutate(song = "clapton")
+
+gunsnrosestimbre <-gunsnroses %>%
+  compmus_gather_timbre()%>%
+  mutate(song = "gunsnroses")
+
+bind_rows(timbredylan, timbreclapton, gunsnrosestimbre) %>%
+  ggplot(
+    aes(
+     x = start + duration / 2,
+      width = duration,
+      y = basis,
+      fill = value
+    )
+  )+
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  scale_fill_viridis_c() +          
+  facet_wrap((~song))
+  theme_classic()
+  
+
+
+```
+
+*** 
+We can see a bigger magnitude for the guns n roses song in more pitches than for the other two songs. This is to be expected hwne listening to these songs. The guns n roses version has the most varriation in it, and actually sounds "biggest". The clapton verson is much more calm and steady. Where the Dylan version is actual pretty quite and steady. Which is since its much smaller length also to be expected.
