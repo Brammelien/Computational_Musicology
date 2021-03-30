@@ -1,5 +1,5 @@
 ---
-title: "untitled"
+title: "Same, same, but different"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
@@ -104,19 +104,31 @@ SaG<-
 
 ```
 
+
+
+
+
 Introduction{.storyboard}
 ====================================================================
+
+###Welcome!
+<h1> Welcome! </h1> 
+<br>
+<br>
+<br>
+![](Corpus_image.png)
+
+
 
 ### Introduction
 
 <h1> Introduction </h1> 
 
-For my corpus I have decided to focus on famous cover songs. To me this is a very interesting topic because it shows how different people can expres the same song in such a way that it is fundamentaly diffent. It shows that the music, rythm, pitch, timbre, loudness and whatever else there might be introduced by an artist to expres a song has significant impact on the experience of a listener, even though the "story" told by the text is exactly the same. 
+For my corpus I have decided to focus on famous cover songs. To me this is a very interesting topic because it shows how different people can express the "same" song in such a way that it is fundamentally different. It shows that the music, rhythm, pitch, timbre, loudness and whatever else there might be introduced by an artist to express a song has significant impact on the experience of a listener, even though the "story" told by the text is exactly the same. 
 
 As you will definitely notice through my corpus the originals in relation to their cover songs do not necessarily have a very easy way to be represented as groups. The reason for this is the fact that other than the versions of the same song, the songs are unrelated. Except of course for the fact that an maybe overly large portion of my songs was originally written by Bob Dylan. I have decided not to include any relationships between the Bob Dylan songs and the different covers, this is because I did not consider this to be the goal of this portfolio. However these considerations and the poor connection between the song do impact the validity of this corpus with respect to external factors.
 
-A small issue other than the Bob Dylan presentation is the slight bias you would find in my corpus. Obviously over the years there have been countless songs with numerous covers, which are impossible to include, the ones that I've chosen are just the ones that I knew of and I enjoy. Therefore it is not necessarily a strong representation of originals and cover songs.")
-
+A small issue other than the Bob Dylan presentation is the slight bias you would find in my corpus. Obviously over the years there have been countless songs with numerous covers, which are impossible to include, the ones that I've chosen are just the ones that I knew of and I enjoy. Therefore it is not necessarily a strong representation of originals and cover songs.
 
 
 ***
@@ -128,10 +140,10 @@ A small issue other than the Bob Dylan presentation is the slight bias you would
 [Pitch and Timbre Comparison](#pitch-and-timbre-comparison) <br>
 [Some Chords](#some-chords) <br>
 [Machine Learning](#machine-learning) <br>
-[Listen in!/Conclusion](#listen-in!/final-thoughts)
+[Listen in!/Conclusion](#listen-infinal-thoughts)
 
 
-### First orientation and overview
+### First orientation and overview {.storyboard}
 
 ```{r}
 
@@ -156,7 +168,7 @@ ggplotly(plot2)
 ```
 
 *** 
-To create an overview of the main differences between the songs I have connected them with an arrow. Using coloring, size and  ggplotly it was not willing to draw all the lines, therefore I have included two plots, to show which songs are included and connected and one with more information about the actual songs. This plot shows the fist (general) overview of the songs in the corpus. The songs are quite spread, however we see a more dence cluster in the left quartile (0 < Valence <0.5 , 0 < Energy <0.5) meaning we have more slower/more "sad" songs.
+To create an overview of the main differences between the songs I have connected them with an arrow which can be seen in the next tab. Using coloring, size and  ggplotly it was not willing to draw all the lines, therefore I have included two plots, to show which songs are included and connected and one with more information about the actual songs. This plot shows the fist (general) overview of the songs in the corpus. The songs are quite spread, however we see a more dence cluster in the left quartile (0 < Valence <0.5 , 0 < Energy <0.5) meaning we have more slower/more "sad" songs. We see a large distribtuin of keys which is interesting, also because in general these distributions are between different songs. Meaning that in general the different versions of the same song are in the same key.
 
 
 ### A more connected overview
@@ -274,7 +286,7 @@ SaGT <- SaG %>%
   scale_fill_viridis_c(guide = "none") +
   labs(x = "Time (s)", y = "Tempo (BPM)") +
   theme_classic() + 
-  ggtitle("SSimon and Garfunkel")
+  ggtitle("Simon and Garfunkel")
 
 
 ```
@@ -650,7 +662,7 @@ OvC %>%
 
 ***
 
-We see that the distribution for the timbre features really is all over the place. The timbre for C01 and C02 are centered, and the at the end they seem to be more centered as well. As I have no clear interpretation of what these Timber features entail I'll try to see if referring to this plot we can analyse the songs regarding to the rest of the Corpus. 
+We see that the distribution for the timbre features really is all over the place. The timbre for C01 and C02 are centered, and the at the end they seem to be more centered as well. As I have no clear interpretation of what these Timber features entail I'll try to see if referring to this plot we can analyze the songs regarding to the rest of the Corpus. 
 
 
 ### Timbre for Sound of Silence 
@@ -783,7 +795,7 @@ bind_rows(TimbreSaG, TimbreDisturbed) %>%
 
 ***
 
-We see some expected behavior for the timbre analysis. C01 and C02 are quite strongly and consistently represented. Something that is normal for the corpus. Interesting is the clear build of in representation of timbre features. They seems to have relatively high presence of timbre features up to C05. Which is not necessarily to be expected looking at the previous graph. 
+We see some expected behavior for the timbre analysis. C01 and C02 are quite strongly and consistently represented. Something that is normal for the corpus. Interesting is the clear build of in representation of timbre features. They seems to have relatively high presence of timbre features up to C05. Which is not necessarily to be expected looking at the previous graph. However it is important to keep in mind these timbre representations are a relative value.
 
 
 ### Timbre for Knocking on Heavens door.
@@ -883,10 +895,10 @@ bind_rows(timbredylan, timbreclapton, gunsnrosestimbre) %>%
 
 *** 
 
-We can see a bigger magnitude for the Guns 'n Roses song in more timbre feautures than for the other two songs. This is to be expected when listening to these songs. The Guns 'n Roses version has the most variation in it, and actually sounds "biggest". The Eric Clapton version is much more calm and steady. Where the Bob Dylan version is actual pretty quite and steady. Which is since its much smaller length also to be expected. Interesting as well though is that these songs show significantly more intensity in a lot of Timbe features than the Sound of Silence versions. This however might also be a relative thing, considering the consistencty we noticed in the Chroma and Timbre self similarity graphs we saw in the previous part for the Sound of Silence
+We can see a bigger magnitude for the Guns 'n Roses song in more timbre features than for the other two songs. This is to be expected when listening to these songs. The Guns 'n Roses version has the most variation in it, and actually sounds "biggest". The Eric Clapton version is much more calm and steady. Where the Bob Dylan version is actual pretty quite and steady. Which is since its much smaller length also to be expected. Interesting as well though is that these songs show significantly more intensity in a lot of Timbre features than the Sound of Silence versions. This however might also be a relative thing, considering the consistency we noticed in the Chroma and Timbre self similarity graphs we saw in the previous part for the Sound of Silence
 
 
-Some chords {.storyboard}
+Chords {.storyboard}
 =======================================================================
 
 ### Chord Analysis for Knocking on Heavens door
@@ -1105,7 +1117,6 @@ combinedchords %>%
   labs(x = "Time (s)", y = "") +
   facet_wrap(~song, scales = "free")
 
-Magnus_Corpus %>% filter(song == "Knocking on Heavens Door")
 ```
 
 
@@ -1485,30 +1496,44 @@ We can observe some of the songs to be in the same clusters. In general I think 
 
 
 
-Listen in!/Final Thoughts
+Listen in!/Final Thoughts {.storyboard}
 ========================================================
 
 ### Listen to the tunes I used to get a better idea!
 
-<h1> knocking on heavenns door </h1> 
+<h1> knocking on heavens door </h1> 
 
 
-<iframe src="https://open.spotify.com/embed/track/6HSXNV0b4M4cLJ7ljgVVeh" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-<br>
-<iframe src="https://open.spotify.com/embed/track/5uhvUuQciVrP0p48NqSHaq" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-<br>
-<iframe src="https://open.spotify.com/embed/track/4JiEyzf0Md7KEFFGWDDdCr" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+<object data="https://open.spotify.com/track/6HSXNV0b4M4cLJ7ljgVVeh?si=3HqA7QdITUeF1iPw97yvjw" width="280" height="140">
+    <embed src="https://open.spotify.com/track/6HSXNV0b4M4cLJ7ljgVVeh?si=3HqA7QdITUeF1iPw97yvjw" width="280" height="140"></embed>
+</object>
+
+
+<object data="https://open.spotify.com/track/5uhvUuQciVrP0p48NqSHaq?si=TJwL_QxqRYmQTKdhoWElxQ" width="280" height="140">
+    <embed src="https://open.spotify.com/track/5uhvUuQciVrP0p48NqSHaq?si=TJwL_QxqRYmQTKdhoWElxQ" width="280" height="140"></embed>
+</object>
+
+
+<object data="https://open.spotify.com/track/4JiEyzf0Md7KEFFGWDDdCr?si=MsolSm2tSy-uFXama15vgA" width="280" height="140">
+    <embed src="https://open.spotify.com/track/4JiEyzf0Md7KEFFGWDDdCr?si=MsolSm2tSy-uFXama15vgA" width="280" height="140"></embed>
+</object>
 
 
 
 <h1> Sound of Silence </h1> 
 
 
-<iframe src="https://open.spotify.com/embed/track/3YfS47QufnLDFA71FUsgCM" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+<object data="https://open.spotify.com/track/3YfS47QufnLDFA71FUsgCM?si=nBO6KHfMRzGvoPvaoSP3zA" width="280" height="140">
+    <embed src="https://open.spotify.com/track/3YfS47QufnLDFA71FUsgCM?si=nBO6KHfMRzGvoPvaoSP3zA" width="280" height="140"></embed>
+</object>
 
-<br>
 
-<iframe src="https://open.spotify.com/embed/track/1Cj2vqUwlJVG27gJrun92y" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+<object data="https://open.spotify.com/embed/track/1Cj2vqUwlJVG27gJrun92y?si=DPPk7RADRUenE1zWq-uXGw" width="280" height="140">
+    <embed src="https://open.spotify.com/embed/track/1Cj2vqUwlJVG27gJrun92y?si=DPPk7RADRUenE1zWq-uXGw" width="280" height="140"></embed>
+</object>
+
+
+
 
 *** 
 
@@ -1516,14 +1541,13 @@ For a better idea of the songs I have been analysing here you can briefly listen
 
 
 
-
 ### Final Thoughts
 
-As we have seen through my portfolio even though keys and even pitches can be the same the songs and the way we experience them can be immensely different, just because a different artist gave a different "swing" to it. I have found it difficult to express this fact in data. Therefore have been more focused on expressing similarities in contract with the differences. I hope that having followed the course of this portfolio this idea of the differences between similar song also reached you. I myself have been quite surprised by the marginal differences in data, with the such immense impact on feeling. Especially when considering the differences in for the Sound of Silence versions. When I first heard the Disturbed version I was extremely amazed, with what they did with it, yet when really listening to it, the changes ara marginal as also comes from the data. Espesciallly the timbre data might be a real good indication for this. 
+As we have seen through my portfolio even though keys and even pitches can be the same, the songs and the way we experience them can be immensely different, just because a different artist gave a different "swing" to it. I have found it difficult to express this fact in data. Therefore have been more focused on expressing similarities in contract with the differences. I hope that having followed the course of this portfolio this idea of the differences between similar songs also reached you. I myself have been quite surprised by the marginal differences in data, with the such immense impact on feeling. Especially when considering the differences in the Sound of Silence versions. When I first heard the Disturbed version I was extremely amazed, with what they did with it, yet when really listening to it, the changes are marginal as also can be viewed from the data. Especially the timbre data might be a real good indication for this. 
 
-I regret not having the opportunity to look at all the songs. Yet I believe that the contrast by analyzing two songs with are placed closed together (Sound of Silence versions) and the Knocking on heavens door versions which are relative far apart and in big contract with each other, I have been able to show the difference of impact of the songs. All though I do understand that a lot of decisions here were my own interpretation, I hope to one day look at it again with a slightly more "Musical theory eye". Especially to understand the differences in key and chord usage. Especially since the chords usage of the Knocking on heavens door is so similar, yet there are different keys and completely different sounds. Where you could definitely hear the similarities with the Sound of Silence I could absolutely not do this with Knocking on heavens door.
+I regret not having the opportunity to look at all the songs. Yet I believe that the contrast by analyzing two songs which are placed closed together (Sound of Silence versions) and the Knocking on heavens door versions which are relative far apart and in big contrast with each other, I have been able to show the difference of impact of the songs. Allthough I do understand that a lot of decisions here were my own interpretation, I hope to one day look at it again with a slightly more "musical theory eye". Especially to understand the differences in key and chord usage. Especially since the chords usage of the Knocking on heavens door is so similar, yet there are different keys and completely different sounds. Where you could definitely hear the similarities with the Sound of Silence I could absolutely not do this with Knocking on heavens door. In hindsight it probably would have been better to include a large portion of the same songs instead of a lot of different covers of many different songs, to gain even better insight in these differences.
 
-Concluding my portfolio I would like to add a note on the classification and clustering. As was visible and mentioned before, the classification was absolutely horrible as was to be expected since there is no way of knowing if something is a original or a cover song (unless for looking at the date. What is interesting is that the clustering did better. Meaning that because of the statistical similarities in these songs, these clustering algorithms are more or less capable of at least placing these songs somewhat together. Where I do not believe, especially in certain cases, that if we removed the lyrics and it's meaning, a human would be capable of doing so.
+Concluding my portfolio I would like to add a note on the classification and clustering. As was visible and mentioned before, the classification was absolutely horrible as this was to be expected since there is no way of knowing if something is a original or a cover song (unless for looking at the date. What is interesting is that the clustering did better. Meaning that because of the statistical similarities in these songs, these clustering algorithms are more or less capable of at least placing these songs somewhat together. Where I do not believe, especially in certain cases, that if we removed the lyrics and it's meaning, a human would be capable of doing so.
 
 
 <!-- ```{r} -->
