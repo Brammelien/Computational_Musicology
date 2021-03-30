@@ -128,7 +128,7 @@ A small issue other than the Bob Dylan presentation is the slight bias you would
 [Pitch and Timbre Comparison](#pitch-and-timbre-comparison) <br>
 [Some Chords](#some-chords) <br>
 [Machine Learning](#machine-learning) <br>
-
+[Listen in!/Conclusion](#listen-in!/final-thoughts)
 
 
 ### First orientation and overview
@@ -1485,7 +1485,7 @@ We can observe some of the songs to be in the same clusters. In general I think 
 
 
 
-Listen in!
+Listen in!/Final Thoughts
 ========================================================
 
 ### Listen to the tunes I used to get a better idea!
@@ -1493,38 +1493,37 @@ Listen in!
 <h1> knocking on heavenns door </h1> 
 
 
-
-{=html}
-<object data="https://open.spotify.com/track/6HSXNV0b4M4cLJ7ljgVVeh?si=3HqA7QdITUeF1iPw97yvjw" width="280" height="140">
-    <embed src="https://open.spotify.com/track/6HSXNV0b4M4cLJ7ljgVVeh?si=3HqA7QdITUeF1iPw97yvjw" width="280" height="140"></embed>
-</object>
-
-{=html}
-<object data="https://open.spotify.com/track/5uhvUuQciVrP0p48NqSHaq?si=TJwL_QxqRYmQTKdhoWElxQ" width="280" height="140">
-    <embed src="https://open.spotify.com/track/5uhvUuQciVrP0p48NqSHaq?si=TJwL_QxqRYmQTKdhoWElxQ" width="280" height="140"></embed>
-</object>
-
-{=html}
-<object data="https://open.spotify.com/track/4JiEyzf0Md7KEFFGWDDdCr?si=MsolSm2tSy-uFXama15vgA" width="280" height="140">
-    <embed src="https://open.spotify.com/track/4JiEyzf0Md7KEFFGWDDdCr?si=MsolSm2tSy-uFXama15vgA" width="280" height="140"></embed>
-</object>
+<iframe src="https://open.spotify.com/embed/track/6HSXNV0b4M4cLJ7ljgVVeh" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+<br>
+<iframe src="https://open.spotify.com/embed/track/5uhvUuQciVrP0p48NqSHaq" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+<br>
+<iframe src="https://open.spotify.com/embed/track/4JiEyzf0Md7KEFFGWDDdCr" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 
 
 
 <h1> Sound of Silence </h1> 
 
 
-{=html}
-<object data="https://open.spotify.com/track/3YfS47QufnLDFA71FUsgCM?si=nBO6KHfMRzGvoPvaoSP3zA" width="280" height="140">
-    <embed src="https://open.spotify.com/track/3YfS47QufnLDFA71FUsgCM?si=nBO6KHfMRzGvoPvaoSP3zA" width="280" height="140"></embed>
-</object>
+<iframe src="https://open.spotify.com/embed/track/3YfS47QufnLDFA71FUsgCM" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 
-{=html}
-<object data="https://open.spotify.com/embed/track/1Cj2vqUwlJVG27gJrun92y?si=DPPk7RADRUenE1zWq-uXGw" width="280" height="140">
-    <embed src="https://open.spotify.com/embed/track/1Cj2vqUwlJVG27gJrun92y?si=DPPk7RADRUenE1zWq-uXGw" width="280" height="140"></embed>
-</object>
+<br>
+
+<iframe src="https://open.spotify.com/embed/track/1Cj2vqUwlJVG27gJrun92y" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+
+*** 
+
+For a better idea of the songs I have been analysing here you can briefly listen to them. I particularly recommend listening briefly to the differences between The sound of Silence version. These are in my opinion significantly more different than they appear from the data. As well as of course just incredible songs, so always worth a listen. 
 
 
+
+
+### Final Thoughts
+
+As we have seen through my portfolio even though keys and even pitches can be the same the songs and the way we experience them can be immensely different, just because a different artist gave a different "swing" to it. I have found it difficult to express this fact in data. Therefore have been more focused on expressing similarities in contract with the differences. I hope that having followed the course of this portfolio this idea of the differences between similar song also reached you. I myself have been quite surprised by the marginal differences in data, with the such immense impact on feeling. Especially when considering the differences in for the Sound of Silence versions. When I first heard the Disturbed version I was extremely amazed, with what they did with it, yet when really listening to it, the changes ara marginal as also comes from the data. Espesciallly the timbre data might be a real good indication for this. 
+
+I regret not having the opportunity to look at all the songs. Yet I believe that the contrast by analyzing two songs with are placed closed together (Sound of Silence versions) and the Knocking on heavens door versions which are relative far apart and in big contract with each other, I have been able to show the difference of impact of the songs. All though I do understand that a lot of decisions here were my own interpretation, I hope to one day look at it again with a slightly more "Musical theory eye". Especially to understand the differences in key and chord usage. Especially since the chords usage of the Knocking on heavens door is so similar, yet there are different keys and completely different sounds. Where you could definitely hear the similarities with the Sound of Silence I could absolutely not do this with Knocking on heavens door.
+
+Concluding my portfolio I would like to add a note on the classification and clustering. As was visible and mentioned before, the classification was absolutely horrible as was to be expected since there is no way of knowing if something is a original or a cover song (unless for looking at the date. What is interesting is that the clustering did better. Meaning that because of the statistical similarities in these songs, these clustering algorithms are more or less capable of at least placing these songs somewhat together. Where I do not believe, especially in certain cases, that if we removed the lyrics and it's meaning, a human would be capable of doing so.
 
 
 <!-- ```{r} -->
