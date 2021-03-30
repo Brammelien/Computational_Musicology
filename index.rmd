@@ -111,12 +111,6 @@ SaG<-
 Introduction{.storyboard}
 ====================================================================
 
-###Welcome!
-<h1> Welcome! </h1> 
-<br>
-<br>
-<br>
-![](Corpus_image.png)
 
 
 
@@ -129,6 +123,13 @@ For my corpus I have decided to focus on famous cover songs. To me this is a ver
 As you will definitely notice through my corpus the originals in relation to their cover songs do not necessarily have a very easy way to be represented as groups. The reason for this is the fact that other than the versions of the same song, the songs are unrelated. Except of course for the fact that an maybe overly large portion of my songs was originally written by Bob Dylan. I have decided not to include any relationships between the Bob Dylan songs and the different covers, this is because I did not consider this to be the goal of this portfolio. However these considerations and the poor connection between the song do impact the validity of this corpus with respect to external factors.
 
 A small issue other than the Bob Dylan presentation is the slight bias you would find in my corpus. Obviously over the years there have been countless songs with numerous covers, which are impossible to include, the ones that I've chosen are just the ones that I knew of and I enjoy. Therefore it is not necessarily a strong representation of originals and cover songs.
+<br>
+<br>
+<br>
+<br>
+<br>
+![](Corpus_image.png)
+
 
 
 ***
@@ -298,7 +299,7 @@ grid.arrange(DistrubedT, SaGT, ncol=2)
 
 ***
 
-the tempogram for the disturbed version looks really interesting as it is a little all over the place, but very clear around 80. Interesting as well is that it seems to be going up consistently. Why this is I am not sure. However the little up and down just over 200 seconds can be caused by the introduction of extra instruments and especially percussion, then after that there is a clear fade out. The tempogram for the Simon and Garfunkel version is really consistent and seems to be very accurate. There is no real surprises here. Also clearly a fade out at the end. What is surprising to me is the appearant accuracy of the estimation. The spotify API is more or less (if we would average this) spot on.
+The tempogram for the disturbed version looks really interesting as it is a little all over the place, but very clear around 80. Interesting as well is that it seems to be going up consistently. Why this is I am not sure. However the little up and down just over 200 seconds can be caused by the introduction of extra instruments and especially percussion, then after that there is a clear fade out. The tempogram for the Simon and Garfunkel version is really consistent and seems to be very accurate. There is no real surprises here. Also clearly a fade out at the end. What is surprising to me is the appearant accuracy of the estimation. The spotify API is more or less (if we would average this) spot on.
 
 
 ### Novelty 
@@ -478,7 +479,7 @@ As you can see I've included my waveform comparisons between different versions 
 Self-similarity {.storyboard}
 =====================================================================
 
-### Sound of Silence 
+### An overview of the Sound of Silence self-similarity matrices for Chroma and Timbre.
 
 ```{r}
 DisturbedS <-
