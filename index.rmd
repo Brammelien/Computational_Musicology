@@ -789,14 +789,74 @@ We see some expected behavior for the timbre analysis. C01 and C02 are quite str
 ### Timbre for Knocking on Heavens door.
 
 ```{r timbre, echo=FALSE}
+dylan <-
+  get_tidy_audio_analysis('6HSXNV0b4M4cLJ7ljgVVeh') %>%
+  compmus_align(bars, segments) %>%
+  select(bars) %>%
+  unnest(bars) %>%
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "acentre", norm = "manhattan"
+      )
+  ) %>%
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "mean"
+      )
+  )
 
 timbredylan <- dylan %>%
   compmus_gather_timbre() %>%
   mutate(song = "Bob Dylan")
 
+clapton <-
+  get_tidy_audio_analysis("5uhvUuQciVrP0p48NqSHaq") %>%
+  compmus_align(bars, segments) %>%
+  select(bars) %>%
+  unnest(bars) %>%
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "acentre", norm = "manhattan"
+      )
+  ) %>%
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "mean"
+      )
+  )
+
 timbreclapton <- clapton %>%
   compmus_gather_timbre() %>%
   mutate(song = "Eric Clapton")
+
+
+gunsnroses<-
+  get_tidy_audio_analysis("4JiEyzf0Md7KEFFGWDDdCr") %>%
+  compmus_align(bars, segments) %>%
+  select(bars) %>%
+  unnest(bars) %>%
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "acentre", norm = "manhattan"
+      )
+  ) %>%
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "mean"
+      )
+  )
 
 gunsnrosestimbre <-gunsnroses %>%
   compmus_gather_timbre()%>%
@@ -1045,6 +1105,7 @@ combinedchords %>%
   labs(x = "Time (s)", y = "") +
   facet_wrap(~song, scales = "free")
 
+Magnus_Corpus %>% filter(song == "Knocking on Heavens Door")
 ```
 
 
@@ -1052,7 +1113,9 @@ combinedchords %>%
 
 Having looked at the pitches for the Sound of Silence, I think it is now interesting to look at keys and chords for Guns 'n Roses, since they differ from each other. First we'll have a look at the chords used in the versions and see if they match the expected keys.
 
-Now google tells me that for both the Bob Dylan and Eric Clapton version the chords should be G, D, Am and C. The Guns 'n Roses version has 
+Now google tells me that for both the Bob Dylan and Eric Clapton version the chords should be G, D, Am and C. The Guns 'n Roses version has G5, D, C, Am7, very small difference, yet key is interpreted significantly different.
+
+At a first glance even it is interesting how the Bob Dylan version and Eric Clapton version shows so many similarities. Looking at it more closely, we can see very strong presence of the Am chord through the entire song for both versions. Both the G and C chords also (even though slighty less) have a strong pressence. The D-maj however seems to be less present, yet still clearly visible. I am not entirely sure why this is the case. There might be a music theory explanation regarding the frequencies of these chords, but my knowledge does not extend that far. The Guns' n Roses version is clearly distinctive from the other two. Interesting here is the more D-maj and D7 which are strongly present. Obviously regarding the key here, this is to be expected hower, the D7 we would have expected to be an Am7. 
 
 
 
@@ -1426,9 +1489,11 @@ Listen in!
 ========================================================
 
 ### Listen to the tunes I used to get a better idea!
+
 <h1> knocking on heavenns door </h1> 
 
-```
+
+
 {=html}
 <object data="https://open.spotify.com/track/6HSXNV0b4M4cLJ7ljgVVeh?si=3HqA7QdITUeF1iPw97yvjw" width="280" height="140">
     <embed src="https://open.spotify.com/track/6HSXNV0b4M4cLJ7ljgVVeh?si=3HqA7QdITUeF1iPw97yvjw" width="280" height="140"></embed>
@@ -1444,11 +1509,11 @@ Listen in!
     <embed src="https://open.spotify.com/track/4JiEyzf0Md7KEFFGWDDdCr?si=MsolSm2tSy-uFXama15vgA" width="280" height="140"></embed>
 </object>
 
-```
+
 
 <h1> Sound of Silence </h1> 
 
-```
+
 {=html}
 <object data="https://open.spotify.com/track/3YfS47QufnLDFA71FUsgCM?si=nBO6KHfMRzGvoPvaoSP3zA" width="280" height="140">
     <embed src="https://open.spotify.com/track/3YfS47QufnLDFA71FUsgCM?si=nBO6KHfMRzGvoPvaoSP3zA" width="280" height="140"></embed>
@@ -1460,7 +1525,6 @@ Listen in!
 </object>
 
 
-```
 
 
 <!-- ```{r} -->
