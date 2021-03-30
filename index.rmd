@@ -1,10 +1,12 @@
 ---
-title: "Dashes to my board"
-author: "B. Slangen"
-date: "2/15/2021"
-output:
-    flexdashboard::flex_dashboard:
-    theme: flatly
+title: "untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    tufte::tufte_html:
+    tufte_features: ["fonts", "italics"]
+
 ---
 
 ```{r setup, include=FALSE}
@@ -29,17 +31,59 @@ library(heatmaply)
 
 ```
 
-```{r}
+```{r include = FALSE}
 
-Magnus_Corpus <- get_playlist_audio_features("", "61rge4nRNpMipwrZ1SojP7")
-#Knocking <-
-#Kids <-
-#FoughttheLaw <-
-#Walkthisway <-
-#Higherground <-
-#Shotthesherif<-
+Corpus_Magnus <- get_playlist_audio_features("", "61rge4nRNpMipwrZ1SojP7")
+Knocking <- get_playlist_audio_features("", "327EyziffxFWSdUz7MiCmx")
+Kids <- get_playlist_audio_features("", "1kZkE4uhybk6cS22SL7Ux3")
+FoughttheLaw <- get_playlist_audio_features("", "4mbLMaq5YLA5XBXm4vfgKs")
+Walkthisway <- get_playlist_audio_features("", "2ni2UYJd3SCKrWUYKxrGfE")
+Higherground <- get_playlist_audio_features("", "0kQ9EOmS476vmivpUHPklM")
+Shotthesherif<- get_playlist_audio_features("", "7yfTUZ1DZqzkcmddAr23aK")
+Behindblueeyes <- get_playlist_audio_features("", "0N0DLVwW0fbP5WojXXbznb")
+Resolution <- get_playlist_audio_features("", "4ZxdskPRt0IUNInTR01jQG")
+Dancinginthemoonlight <- get_playlist_audio_features("", "1bcAHbD29EsZxSB4VKc55y")
+Iheardthorughgrapevines <-  get_playlist_audio_features("", "4YH3tTs726ytJduHp8rF6J")
+Makeyoufeelmylove <- get_playlist_audio_features("", "3CzKlH7KCI2OmWSskKwzPc")
+ProudMary <- get_playlist_audio_features("", "10nX0leYFRp2j9yfTHhCAu")
+Withalittlehelpfrommyfrieds <- get_playlist_audio_features("", "12XebO1draG1jhJna2BvEa")
+NothingCompares2u <- get_playlist_audio_features("", "0Swtq28ACs4zRvc8FBnCfC")
+Yoursong <- get_playlist_audio_features("", "1nbHf5kA4Um7dcltar6XnQ")
+Tinydancer <- get_playlist_audio_features("", "4v0QOzwwv7AuQ8b4lGqjCL")
+Bridgeovertroubledwater <- get_playlist_audio_features("", "7px3E46CmzSy9Tcx4Rpm05")
+Wecanworkitout <- get_playlist_audio_features("", "2voY8IP9JUKA3iMjXYr7GZ")
+Changes <- get_playlist_audio_features("", "5jZFXBxacTsXF1E6dTE9S8")
+Allalongthewatchtower <- get_playlist_audio_features("", "2xj6CGN0m0seoJxEpOrDnT")
+Hallelujah <- get_playlist_audio_features("", "3kBGvNHz0XtpvizNDfZCJA")
+Hurt <- get_playlist_audio_features("", "2IfQ3wz2b4e1Y31KXiNJKa")
+Soundofsilence <- get_playlist_audio_features("", "7dA8uWqDkkVwgOaiGZgkyW")
 
-#Bobby
+Magnus_Corpus <-
+  bind_rows(
+    Knocking %>% mutate(song= "Knocking on Heavens Door"),
+    Kids %>% mutate(song= "Kids"),
+    FoughttheLaw %>% mutate(song = "I Fought the Law"),
+    Walkthisway%>% mutate(song= "Walk This Way"),
+    Higherground %>% mutate(song= "Higher Ground"),
+    Shotthesherif %>% mutate(song = "I Shot The Sheriff"),
+    Behindblueeyes%>% mutate(song= "Behind Blue Eyes"),
+    Resolution %>% mutate(song= "Resolution"),
+    Dancinginthemoonlight %>% mutate(song = "Dancing in the Moonlight (Caught me in it's spotlight)"),
+    Iheardthorughgrapevines %>% mutate(song= "I Heard it Thorugh The Grapevines"),
+    Makeyoufeelmylove %>% mutate(song= "Make You Feel My Love"),
+    ProudMary%>% mutate(song = "Proud Mary"),
+    Withalittlehelpfrommyfrieds%>% mutate(song= "With a Little Help From My Friends"),
+    NothingCompares2u  %>% mutate(song= "Nothing compares 2U"),
+    Yoursong %>% mutate(song = "Your song"),
+    Tinydancer %>% mutate(song= "Tiny Dancer"),
+    Bridgeovertroubledwater %>% mutate(song= "Bridge over Troubled Water"),
+    Wecanworkitout  %>% mutate(song = "We Can Work It Out"),
+    Allalongthewatchtower %>% mutate(song= "All along the watchtower"),
+    Hallelujah  %>% mutate(song = "Hallelujah"),
+    Hurt %>% mutate(song= "Hurt"),
+    Soundofsilence %>% mutate(song= "Sound of Silence")
+  ) 
+# Bobby
 Boibby_Orginal <-
   get_tidy_audio_analysis("6HSXNV0b4M4cLJ7ljgVVeh") 
 
@@ -51,307 +95,126 @@ Ericslive <-
 Theguns <-
   get_tidy_audio_analysis("4JiEyzf0Md7KEFFGWDDdCr")
 
-Magnus_Corpus
+#sound of sillence 
+Disturbed<-
+  get_tidy_audio_analysis("1Cj2vqUwlJVG27gJrun92y")
+
+SaG<-
+  get_tidy_audio_analysis("3YfS47QufnLDFA71FUsgCM")
 
 ```
 
-```{r}
-get_conf_mat <- function(fit) {
-  outcome <- .get_tune_outcome_names(fit)
-  fit %>% 
-    collect_predictions() %>% 
-    conf_mat(truth = outcome, estimate = .pred_class)
-}  
+Introduction{.storyboard}
+====================================================================
 
-get_pr <- function(fit) {
-  fit %>% 
-    conf_mat_resampled() %>% 
-    group_by(Prediction) %>% mutate(precision = Freq / sum(Freq)) %>% 
-    group_by(Truth) %>% mutate(recall = Freq / sum(Freq)) %>% 
-    ungroup() %>% filter(Prediction == Truth) %>% 
-    select(class = Prediction, precision, recall)
-}  
+### Introduction
 
-```
+<h1> Introduction </h1> 
+
+For my corpus I have decided to focus on famous cover songs. To me this is a very interesting topic because it shows how different people can expres the same song in such a way that it is fundamentaly diffent. It shows that the music, rythm, pitch, timbre, loudness and whatever else there might be introduced by an artist to expres a song has significant impact on the experience of a listener, even though the "story" told by the text is exactly the same. 
+
+As you will definitely notice through my corpus the originals in relation to their cover songs do not necessarily have a very easy way to be represented as groups. The reason for this is the fact that other than the versions of the same song, the songs are unrelated. Except of course for the fact that an maybe overly large portion of my songs was originally written by Bob Dylan. I have decided not to include any relationships between the Bob Dylan songs and the different covers, this is because I did not consider this to be the goal of this portfolio. However these considerations and the poor connection between the song do impact the validity of this corpus with respect to external factors.
+
+A small issue other than the Bob Dylan presentation is the slight bias you would find in my corpus. Obviously over the years there have been countless songs with numerous covers, which are impossible to include, the ones that I've chosen are just the ones that I knew of and I enjoy. Therefore it is not necessarily a strong representation of originals and cover songs.")
 
 
-```{r}
-pop <- 
-  get_playlist_audio_features("spotify", "37i9dQZF1DWWEcRhUVtL8n")
-party <- get_playlist_audio_features("spotify", "37i9dQZF1DWTujiC7wfofZ")
-workout <- get_playlist_audio_features("spotify", "37i9dQZF1DXaRL7xbcDl7X")
-indie <-
-  bind_rows(
-    pop %>% mutate(playlist = "Indie Pop") %>% slice_head(n = 20),
-    party %>% mutate(playlist = "Indie Party") %>% slice_head(n = 20),
-    workout %>% mutate(playlist = "Indie Workout") %>% slice_head(n = 20)
-  ) 
 
-```
+***
+<h1> Table of content: </h1> 
+[Introduction](#introduction) <br>
+[Tempo and Novelty](#tempo-and-novelty) <br>
+[Waveform Analysis](#waveform-analysis) <br>
+[Self Similarity](#self-similarity) <br>
+[Pitch and Timbre Comparison](#pitch-and-timbre-comparison) <br>
+[Some Chords](#some-chords) <br>
+[Machine Learning](#machine-learning) <br>
+
+
+
+### First orientation and overview
 
 ```{r}
 
-Magnus_Corpus_features <-
-  Magnus_Corpus %>%  # For your portfolio, change this to the name of your corpus.
-  add_audio_analysis() %>% 
-  mutate(
-    track.name = factor(track.name),
-    segments = map2(segments, key, compmus_c_transpose),
-    pitches =
-      map(
-        segments,
-        compmus_summarise, pitches,
-        method = "mean", norm = "manhattan"
-      ),
-    timbre =
-      map(
-        segments,
-        compmus_summarise, timbre,
-        method = "mean",
-      )
-  ) %>%
-  mutate(pitches = map(pitches, compmus_normalise, "clr")) %>%
-  mutate_at(vars(pitches, timbre), map, bind_rows) %>%
-  unnest(cols = c(pitches, timbre))
+#Ordered_magnus_corpus <- Magnus_Corpus %>%
+    # Arrange data frame
+ # group_by(track.name)
+  # Reorder countries by working hours in 2006
 
-```
+plot1 <- ggplot(Magnus_Corpus, aes(x = energy, y = valence, group = song , label = track.artists$name)) +
+geom_point() +
+geom_line(arrow = arrow(length = unit(1.5, "mm"), type = "closed")) 
+#geom_segment(aes(x = energy, y = y1, xend = x2, yend = y2, colour = "segment"), data = df)
+#geom_path(arrow = arrow(length = unit(1.5, "mm"), type = "closed")) 
+plot2 <- ggplot(Magnus_Corpus, aes(x = energy, y = valence, group = song, color = key_name, size = tempo)) +
+geom_point() 
 
-```{r}
-magnus_corpus_recipe <-
-  recipe(track.name ~
-      danceability +
-      energy +
-      loudness +
-      speechiness +
-      acousticness +
-      instrumentalness +
-      liveness +
-      valence +
-      tempo +
-      duration +
-      C + `C#|Db` + D + `D#|Eb` +
-      E + `F` + `F#|Gb` + G +
-      `G#|Ab` + A + `A#|Bb` + B +
-      c01 + c02 + c03 + c04 + c05 + c06 +
-      c07 + c08 + c09 + c10 + c11 + c12,
-    data = Magnus_Corpus_features,          # Use the same name as the previous block.
-  ) %>%
-  step_center(all_predictors()) %>%
-  step_scale(all_predictors())      # Converts to z-scores.
-  # step_range(all_predictors())    # Sets range to [0, 1].
+ggplotly(plot2)
+
+
 
 
 ```
 
-```{r}
-magnus_corpus_cv <- Magnus_Corpus_features %>% vfold_cv(5)
+*** 
+To create an overview of the main differences between the songs I have connected them with an arrow. Using coloring, size and  ggplotly it was not willing to draw all the lines, therefore I have included two plots, to show which songs are included and connected and one with more information about the actual songs. This plot shows the fist (general) overview of the songs in the corpus. The songs are quite spread, however we see a more dence cluster in the left quartile (0 < Valence <0.5 , 0 < Energy <0.5) meaning we have more slower/more "sad" songs.
 
 
-```
-
-```{r}
-knn_model <-
-  nearest_neighbor(neighbors = 1) %>%
-  set_mode("classification") %>% 
-  set_engine("kknn")
-magnus_corpus_knn <- 
-  workflow() %>% 
-  add_recipe(magnus_corpus_recipe) %>% 
-  add_model(knn_model) %>% 
-  fit_resamples(
-    magnus_corpus_cv, 
-    control = control_resamples(save_pred = TRUE)
-  )
-
-```
-
-
+### A more connected overview
 
 ```{r}
-tree_model <-
-  decision_tree() %>%
-  set_mode("classification") %>% 
-  set_engine("C5.0")
-magnus_corpus_tree <- 
-  workflow() %>% 
-  add_recipe(magnus_corpus_recipe) %>% 
-  add_model(tree_model) %>% 
-  fit_resamples(
-    magnus_corpus_cv, 
-    control = control_resamples(save_pred = TRUE)
-  )
-
-
-```
-
-```{r}
-#magnus_corpus_tree %>% get_pr()
-```
-
-```{r}
-workflow() %>% 
-  add_recipe(magnus_corpus_recipe) %>% 
-  add_model(tree_model) %>% 
-  fit(Magnus_Corpus_features) %>% 
-  pluck("fit", "fit", "fit") %>%
-  summary()
-
-```
-
-```{r}
-forest_model <-
-  rand_forest() %>%
-  set_mode("classification") %>% 
-  set_engine("ranger", importance = "impurity")
-magnus_corpus_forest <- 
-  workflow() %>% 
-  add_recipe(magnus_corpus_recipe) %>% 
-  add_model(forest_model) %>% 
-  fit_resamples(
-    magnus_corpus_cv, 
-    control = control_resamples(save_pred = TRUE)
-  )
-
-```
-
-```{r}
-#magnus_corpus_forest %>% get_pr()
-
-```
-
-```{r}
-workflow() %>% 
-  add_recipe(magnus_corpus_recipe) %>% 
-  add_model(forest_model) %>% 
-  fit(Magnus_Corpus_features) %>% 
-  pluck("fit", "fit", "fit") %>%
-  ranger::importance() %>% 
-  enframe() %>% 
-  mutate(name = fct_reorder(name, value)) %>% 
-  ggplot(aes(name, value)) + 
-  geom_col() + 
-  coord_flip() +
-  theme_minimal() +
-  labs(x = NULL, y = "Importance")
-
-```
-
-```{r}
-Magnus_Corpus_features %>%
-  ggplot(aes(x = B, y = c02, colour = track.id, size = energy)) +
-  geom_point(alpha = 0.8) +
-  scale_color_viridis_d() +
-  labs(
-    x = "Timbre Component 1",
-    y = "Timbre Component 2",
-    size = "Energy",
-    colour = "Playlist"
-  )
-```
-
-Latest updates {.storyboard}
-=====================================================================
-
-### Classifier
-
-```{r}
-#magnus_corpus_knn %>% get_conf_mat()
-magnus_corpus_knn %>% get_conf_mat() %>% autoplot(type = "mosaic")
-magnus_corpus_knn %>% get_conf_mat() %>% autoplot(type = "heatmap")
+plot1 <-ggplotly(plot1)
+plot1
 ```
 
 ***
-As is not really visible since i was not able to make a mosaic or anything, my classification went horrible. I was not able to use tracknames, since they are all the same, which is not allowed. Factoring (for some reason) did not help as was shown for playlist = factor(playlist). I am now considering new option to organize my playlists in a way that classification can be used. Perhaps by assigning originals and covers, then seeing if it is capable of finding the right original with the right cover. However this would require a significant amount of new playlists, as otherwise it just uses each track.name as a separate class. Which is useless.
+Here we have a little loss of information, however we gain insight in which way the songs (original and cover(s)) are related to each other. We can see that the Dancing in the moonlight versions for example differ quite a bit with regard to energy and valance, where the Resolution songs differ just a lot in energy, but have nearly the same valence. Intersting I think is the Knocking on heavens door connection, where we see between one version an increasing rise in valence and Energy between two others and both an increase in valence and energy between the first and last one (most left versus most right). Since we lost insight in Key and Tempo I will just tell you that the most right version is the Guns 'n Roses version, which is also in a different key than the two others. Considering this difference we will focus on these songs for the further portfolio. 
 
+Something else we will visit, is the Sound of Silence versions. These two are surprisingly close together. While the Simon and Garfunkel version sounds way more upbeat and happy to me. In general they have a total different feel to me. 
 
-### Clustering
+### A show of difference in distributions between original and cover versions regarding Tempo
 
 ```{r}
-halloween <-
-  get_playlist_audio_features("", "61rge4nRNpMipwrZ1SojP7")%>%
-  add_audio_analysis() %>%
-  mutate(
-    segments = map2(segments, key, compmus_c_transpose),
-    pitches =
-      map(segments,
-        compmus_summarise, pitches,
-        method = "mean", norm = "manhattan"
-      ),
-    timbre =
-      map(
-        segments,
-        compmus_summarise, timbre,
-        method = "mean"
-      )
+Original <-
+  get_playlist_audio_features(
+    "",
+    "3rB3GIfRb91ranh0Bb0TSu"
   ) %>%
-  mutate(pitches = map(pitches, compmus_normalise, "clr")) %>%
-  mutate_at(vars(pitches, timbre), map, bind_rows) %>%
-  unnest(cols = c(pitches, timbre))
-
-
-```
-
-```{r}
-
-halloween_juice <-
-  recipe(
-    track.id ~
-      danceability +
-      energy +
-      loudness +
-      speechiness +
-      acousticness +
-      instrumentalness +
-      liveness +
-      valence +
-      tempo +
-      duration +
-      C + `C#|Db` + D + `D#|Eb` +
-      E + `F` + `F#|Gb` + G +
-      `G#|Ab` + A + `A#|Bb` + B +
-      c01 + c02 + c03 + c04 + c05 + c06 +
-      c07 + c08 + c09 + c10 + c11 + c12,
-    data = halloween
+  slice(1:30) %>%
+  add_audio_analysis()
+Covers <-
+  get_playlist_audio_features(
+    "",
+    "5Yn7G1TarUYC4dJY6IMqZD"
   ) %>%
-  step_center(all_predictors()) %>%
-  step_scale(all_predictors()) %>% 
-  # step_range(all_predictors()) %>% 
-  prep(halloween %>% mutate(track.id = str_trunc(track.id, 20))) %>%
-  juice() %>%
-  column_to_rownames("track.id")
-```
+  slice(1:30) %>%
+  add_audio_analysis()
+OvC <-
+  Original %>%
+  mutate(Original = "Yes") %>%
+  bind_rows(Covers %>% mutate(Original= "No"))
 
-### Clustering 
-```{r}
-halloween_dist <- dist(halloween_juice, method = "manhattan")
-```
 
-```{r}
-halloween_dist %>% 
-  hclust(method = "complete") %>% # Try single, average, and complete.
-  dendro_data() %>%
-  ggdendrogram(rotate = TRUE)
-  
-```
 
-```{r}
-heatmaply(
-  halloween_juice,
-  hclustfun = hclust,
-  hclust_method = "average",  # Change for single, average, or complete linkage.
-  dist_method = "euclidean"
-)
-
+OvC %>%
+  select(Original, tempo) %>%
+  ggplot(aes(x = Original, y = tempo, fill = Original)) +
+  geom_violin() +
+  scale_fill_viridis_d() +
+  labs(x = "Orginal/cover", y = "Tempo", fill = "Original")
 
 ```
 
-***
-My clustering went better than my classification, however here the same issue occurs that it does not allow for the same names. I am going to see if it possible to use different factors for each playlist such that I can use the the trach kanmes instead of the id's. However this too would require a significant amount of new playlist. I did not have time yet to make these. 
 
-Tempo {.storyboard}
+*** 
+
+A really interesting distribution difference here, the tempo's are both centered around 120 bpm, however we see that the Original versions have a way earlier cut of around 85, where the Cover version go as far down as 65 bpm. The track this corresponds to is Make you Feel my Love by Adele (cover), which is interesting, because it is not the track with the lowest valence or energy, telling us that the spotify API does not necessarily consider tempo as the main factor for energy and valance. Therefore we will review this two for our two chosen songs.
+
+
+Tempo and Novelty{.storyboard}
 =====================================================================
 
-### Tempo analysis. 
+### Tempo analysis Guns 'n Roses
+
 ```{r}
 BobT <- Boibby_Orginal %>%
   tempogram(window_size = 8, hop_size = 1, cyclic = TRUE) %>%
@@ -387,9 +250,43 @@ grid.arrange(BobT, EricT, GunsT, ncol=2)
 
 ```
 
+
 ***
 
-Even though the Bob Dylan version and the Eric clapton version have a much slower feel that the Guns 'n Roses version, the tempograms do not seem to differ to much in BPM. I have tried verifying the tempo's through Google because of this reason. The tempo estimations for the Bob Dylan version and the Guns 'n roses version seem to vary rather much somewhere between 65 and 140 bpm, however for the Eric Clapton version they seem pretty consistent. Which I thought was interesting considering this shows two pretty strong tempo "powers". Something else I think is interesting to note is the tempo increase in the beginning and tempo decrease at the end in the Guns 'n Roses version, this change is clearly audible, which to me might be an indication that the estimations are rather accurate. Nonetheless these tempo estimations shown here are an interesting indication that the tempo more or less remained the same over the differnet cover versions. 
+Even though the Bob Dylan version and the Eric Clapton version have a much slower feel that the Guns 'n Roses version, the tempograms do not seem to differ to much in BPM. I have tried verifying the tempo's through Google because of this reason. The tempo estimations for the Bob Dylan version and the Guns 'n roses version seem to vary rather much somewhere between 65 and 140 bpm, however for the Eric Clapton version they seem pretty consistent. Which I thought was interesting considering this shows two pretty strong tempo "powers". I think this might be caused by some rather silent percussion in the back, but I'm not sure of this. Something else I think is interesting to note is the tempo increase in the beginning and tempo decrease at the end in the Guns 'n Roses version, this change is clearly audible, which to me might be an indication that the estimations are rather accurate. Nonetheless these tempo estimations shown here are an interesting indication that the tempo more or less remained the same over the differnet cover versions. 
+
+### Tempo Analysis Sound of Silence
+
+```{r}
+DistrubedT <- Disturbed %>%
+  tempogram(window_size = 8, hop_size = 1, cyclic = TRUE) %>%
+  ggplot(aes(x = time, y = bpm, fill = power)) +
+  geom_raster() +
+  scale_fill_viridis_c(guide = "none") +
+  labs(x = "Time (s)", y = "Tempo (BPM)") +
+  theme_classic() + 
+  ggtitle("Disturbed")
+
+SaGT <- SaG %>%
+  tempogram(window_size = 8, hop_size = 1, cyclic = TRUE) %>%
+  ggplot(aes(x = time, y = bpm, fill = power)) +
+  geom_raster() +
+  scale_fill_viridis_c(guide = "none") +
+  labs(x = "Time (s)", y = "Tempo (BPM)") +
+  theme_classic() + 
+  ggtitle("SSimon and Garfunkel")
+
+
+```
+
+```{r}
+
+grid.arrange(DistrubedT, SaGT, ncol=2)
+```
+
+***
+
+the tempogram for the disturbed version looks really interesting as it is a little all over the place, but very clear around 80. Interesting as well is that it seems to be going up consistently. Why this is I am not sure. However the little up and down just over 200 seconds can be caused by the introduction of extra instruments and especially percussion, then after that there is a clear fade out. The tempogram for the Simon and Garfunkel version is really consistent and seems to be very accurate. There is no real surprises here. Also clearly a fade out at the end. What is surprising to me is the appearant accuracy of the estimation. The spotify API is more or less (if we would average this) spot on.
 
 
 ### Novelty 
@@ -433,137 +330,11 @@ feed_this %>%
 ***
 Even though the grids vary (pay attention to different x and y scales), the degree of novelty does not seem to differ significantly between the versions. We see one outlier in the guns n roses graph that seems to marginalize the other values around 240. This is a little spike after a silent part, where they start singing "knock knock knocking" again. Other than that we see in general novelties with a maximum of 15. Especially in the Eric Clapton version. Which is expected since this is a rather consistent song.
 
-### irrelevant
-
-```{r}
-bebop <-
-  get_playlist_audio_features(
-    "thesoundsofspotify",
-    "55s8gstHcaCyfU47mQgLrB"
-  ) %>%
-  slice(1:30) %>%
-  add_audio_analysis()
-bigband <-
-  get_playlist_audio_features(
-    "thesoundsofspotify",
-    "2cjIvuw4VVOQSeUAZfNiqY"
-  ) %>%
-  slice(1:30) %>%
-  add_audio_analysis()
-jazz <-
-  bebop %>%
-  mutate(genre = "Bebop") %>%
-  bind_rows(bigband %>% mutate(genre = "Big Band"))
-
-jazz %>%
-  mutate(
-    sections =
-      map(
-        sections,                                    # sections or segments
-        summarise_at,
-        vars(tempo, loudness, duration),             # features of interest
-        list(section_mean = mean, section_sd = sd)   # aggregation functions
-      )
-  ) %>%
-  unnest(sections) %>%
-  ggplot(
-    aes(
-      x = tempo,
-      y = tempo_section_sd,
-      colour = genre,
-      alpha = loudness
-    )
-  ) +
-  geom_point(aes(size = duration / 60)) +
-  geom_rug() +
-  theme_minimal() +
-  ylim(0, 5) +
-  labs(
-    x = "Mean Tempo (bpm)",
-    y = "SD Tempo",
-    colour = "Genre",
-    size = "Duration (min)",
-    alpha = "Volume (dBFS)"
-  )
-```
-
-
-
-
-```{r} 
-
-jazz <-
-  bebop %>%
-  mutate(genre = "Bebop") %>%
-  bind_rows(bigband %>% mutate(genre = "Big Band"))
-jazz %>%
-  mutate(
-    timbre =
-      map(
-        segments,
-        compmus_summarise,
-        timbre,
-        method = "mean"
-      )
-  ) %>%
-  select(genre, timbre) %>%
-  compmus_gather_timbre() %>%
-  ggplot(aes(x = basis, y = value, fill = genre)) +
-  geom_violin() +
-  scale_fill_viridis_d() +
-  labs(x = "Spotify Timbre Coefficients", y = "", fill = "Genre")
-
-```
-
-*** 
-Some text here
-
-INTRO
-====================================================================
-
-### Plot tab
-For my first representation I have tried to create an overview of the different versions of cover songs in my Corpus. Sadly I have had some trouble getting the artists names from Spotify which made me unable to give information about this. Even a more major issue I faced was the group_by function, which can only group songs that have the exact same title. Cover songs sadly do not always have exctly the same title. In the graph below you see an attempt to show a basic distribution of my Corpus based on the energy (x-axis) and valence (y-axis). I chose these two values to give an insight in the overal feel of a song according to spotify. With this I attempted to create a feeling of how far the feel of the cover songs was apart from the original (and possibly other covers of the same song), to give a stronger sense of the differences I attempted to draw lines between different versions of the same song. It is visble that I still struggle with correct imlementation, I seem to lose colors and visibility now I have corrected the issue with the song names.
-
-
-### Wavferform tab
-As you can see ive included my waveform comparisons between different versions of Knocking on heavens door. I've chosen this one, because it shows absolutely no similarity what so ever. For the Bob Dylan version this makes sense as it is significantly shorter than the other version. However, the Eric Clapton version and the Guns 'N Roses version are very similar in duration. I think this is a very interesting representation on how different the "same" songs can be. I will try to show this more with graphs in the future, as making waveform analysis for all songs is not feasible nor informative. I tried showing them in a rows overview, which is nicer, however because of the code that is shown this really messes up the overview. 
-
-
-
-
-
-
-The messed up plot
-=====================================================================
-```{r}
-
-Ordered_magnus_corpus <- Magnus_Corpus %>%
-    # Arrange data frame
-  group_by(track.name)
-  # Reorder countries by working hours in 2006
-
-plot <- ggplot(Ordered_magnus_corpus, aes(x = energy, y = valence, group = track.name)) +
-geom_point() +
-geom_path(arrow = arrow(length = unit(1.5, "mm"), type = "closed"))
-
-ggplotly(plot)
-
-
-
-          
-
-
-```
-
-
-
-Waveform analysis
+Waveform analysis {.storyboard}
 =====================================================================
 
-Bobby VS. Eric
------------------------------------------------------------------------
 
-
+### Waveform analysis of Knocking on heavens door
 
 ```{r}
 #Bobby
@@ -579,7 +350,7 @@ Ericslive <-
   unnest(segments) %>%
   select(start, duration, pitches)
 
-compmus_long_distance(
+plotboberic <- compmus_long_distance(
   Boibby_Orginal %>% mutate(pitches = map(pitches, compmus_normalise, "euclidean")),
   Ericslive %>% mutate(pitches = map(pitches, compmus_normalise, "euclidean")),
   feature = pitches,
@@ -603,12 +374,6 @@ compmus_long_distance(
 ```
 
 
-
-Bobby VS. The Guns
------------------------------------------------------------------------
-
-
-
 ```{r}
 #Bobby
 Boibby_Orginal <-
@@ -623,7 +388,7 @@ Theguns <-
   unnest(segments) %>%
   select(start, duration, pitches)
 
-compmus_long_distance(
+plotbob_guns <- compmus_long_distance(
   Boibby_Orginal %>% mutate(pitches = map(pitches, compmus_normalise, "euclidean")),
   Theguns %>% mutate(pitches = map(pitches, compmus_normalise, "euclidean")),
   feature = pitches,
@@ -647,8 +412,7 @@ compmus_long_distance(
 ```
 
 
-Eric VS. The Guns
------------------------------------------------------------------------
+
 ```{r}
 # Eric
 Ericslive <-
@@ -663,7 +427,7 @@ Theguns <-
   unnest(segments) %>%
   select(start, duration, pitches)
 
-compmus_long_distance(
+ploteric_guns <- compmus_long_distance(
   Ericslive %>% mutate(pitches = map(pitches, compmus_normalise, "euclidean")),
   Theguns %>% mutate(pitches = map(pitches, compmus_normalise, "euclidean")),
   feature = pitches,
@@ -686,20 +450,27 @@ compmus_long_distance(
 
 ```
 
+```{r}
+
+grid.arrange(plotboberic, plotbob_guns, ploteric_guns, ncol = 3)
+
+```
+
+
+***
+
+As you can see I've included my waveform comparisons between different versions of Knocking on heavens door. I've chosen this one, because it shows absolutely no similarity what so ever. For the Bob Dylan version this makes sense as it is significantly shorter than the other version. However, the Eric Clapton version and the Guns 'N Roses version are very similar in duration. I think this is a very interesting representation on how different the "same" songs can be. Nonetheless listening to these songs, this is hardly surprising. Especially if we also take into consideration these songs are in different keys.  will try to show this more with graphs in the future, as making waveform analysis for all songs is not feasible nor informative. I tried showing them in a rows overview, which is nicer, however because of the code that is shown this really messes up the overview.
 
 
 
-
-
-pitch and timbre {.storyboard}
+Self-similarity {.storyboard}
 =====================================================================
 
+### Sound of Silence 
 
-### Dylan
-
-```{r dylan}
-dylan <-
-  get_tidy_audio_analysis('6HSXNV0b4M4cLJ7ljgVVeh') %>%
+```{r}
+DisturbedS <-
+  Disturbed%>%
   compmus_align(bars, segments) %>%
   select(bars) %>%
   unnest(bars) %>%
@@ -717,63 +488,11 @@ dylan <-
         method = "mean"
       )
   )
-bind_rows(
-  dylan %>% 
+Disturbedss <- bind_rows(
+  DisturbedS%>% 
     compmus_self_similarity(pitches, "aitchison") %>% 
     mutate(d = d / max(d), type = "Chroma"),
-  dylan %>% 
-    compmus_self_similarity(timbre, "euclidean") %>% 
-    mutate(d = d / max(d), type = "Timbre")
-) %>%
-  mutate() %>% 
-  ggplot(
-    aes(
-      x = xstart + xduration / 2,
-      width = xduration,
-      y = ystart + yduration / 2,
-      height = yduration,
-      fill = d
-    )
-  ) +
-  geom_tile() +
-  coord_fixed() +
-  facet_wrap(~type) +
-  scale_fill_viridis_c(option = "E", guide = "none") +
-  theme_classic() + 
-  labs(x = "", y = "")
-```
-
-***
-Some lines here
-
-### Clapton
-
-
-```{r clapton}
-clapton <-
-  get_tidy_audio_analysis("5uhvUuQciVrP0p48NqSHaq") %>%
-  compmus_align(bars, segments) %>%
-  select(bars) %>%
-  unnest(bars) %>%
-  mutate(
-    pitches =
-      map(segments,
-        compmus_summarise, pitches,
-        method = "acentre", norm = "manhattan"
-      )
-  ) %>%
-  mutate(
-    timbre =
-      map(segments,
-        compmus_summarise, timbre,
-        method = "mean"
-      )
-  )
-bind_rows(
-  clapton %>% 
-    compmus_self_similarity(pitches, "aitchison") %>% 
-    mutate(d = d / max(d), type = "Chroma"),
-  clapton %>% 
+  DisturbedS %>% 
     compmus_self_similarity(timbre, "euclidean") %>% 
     mutate(d = d / max(d), type = "Timbre")
 ) %>%
@@ -794,18 +513,7 @@ bind_rows(
   theme_classic() + 
   labs(x = "", y = "")
 
-```
-
-***
-Some text here
-
-### Roses
-
-```{r gunsnroses}
-
-
-gunsnroses<-
-  get_tidy_audio_analysis("4JiEyzf0Md7KEFFGWDDdCr") %>%
+SaGs <- SaG %>%
   compmus_align(bars, segments) %>%
   select(bars) %>%
   unnest(bars) %>%
@@ -823,11 +531,11 @@ gunsnroses<-
         method = "mean"
       )
   )
-bind_rows(
-  gunsnroses %>% 
+SaGss <- bind_rows(
+  SaGs %>% 
     compmus_self_similarity(pitches, "aitchison") %>% 
     mutate(d = d / max(d), type = "Chroma"),
-  gunsnroses %>% 
+  SaGs %>% 
     compmus_self_similarity(timbre, "euclidean") %>% 
     mutate(d = d / max(d), type = "Timbre")
 ) %>%
@@ -848,26 +556,251 @@ bind_rows(
   theme_classic() + 
   labs(x = "", y = "")
 
+grid.arrange(SaGss, Disturbedss, ncol=2)
+
+```
+
+
+***
+
+As is clearly visible looking at the diagonal lines in both Chromagrams there is a significant amount of repetetion in both versions. This is not very surpirsing, this is quite characteristic of the Simon and Garfunkel songs in general and with respect to pitches and lyrics Disturbed did not make significant changes. However interesting I believe is the massive blocks visible in the Timbre graph for the disturbed version. In these blocks, there are some introduction of (quite strong) new percussion every now and then. Yet the Timbre seems to be dominated by the voice, which is of course quite present during the entire song. Personally in think this is therefore also the reason that we experience these songs so significantly different. 
+
+I have decided not to include the Guns 'n Roses self-similarity graphs. The reason for this is that they show very little comparison and there is not much to say about them in relation to each other, other than that they are as well relatively repetitive. 
+
+
+
+Pitch and Timbre comparison {.storyboard}
+=====================================================================
+
+### Pitch for the Sound of Silence 
+
+```{r}
+SaGP <- SaG  %>%
+  select(segments) %>%
+  unnest(segments) %>%
+  select(start, duration, pitches)
+
+SaGP <- SaGP %>% mutate(pitches = map(pitches, compmus_normalise, "euclidean")) %>%
+  compmus_gather_chroma() %>% 
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = pitch_class,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  theme_minimal() +
+  scale_fill_viridis_c()
+
+DisturbedP <- Disturbed %>% 
+    select(segments) %>%
+  unnest(segments) %>%
+  select(start, duration, pitches)
+
+DisturbedP <- DisturbedP %>% mutate(pitches = map(pitches, compmus_normalise, "euclidean")) %>%
+  compmus_gather_chroma() %>% 
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = pitch_class,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  theme_minimal() +
+  scale_fill_viridis_c()
+
+grid.arrange(SaGP, DisturbedP)
+
 ```
 
 ***
-Some lines here
 
-### Timbre comparison
+I have decided just to include the pitch comparisons for the Sound Silence, as the one for Guns 'n Roses was more or less to be expected and we will revisit it when we look at the chords and keys. I assumed the pitches for the Sound of Silence version to be quite similar. Of course because of the similar keys, but also because in the beginning a guitar for the Simon and Garfunkel version and in the Disturbed version a piano quite distinctively plays similar pitches. The Sound of Silence is in the key of D-minor (relative F-major). Which we can see by relative strong magnitudes in D, E, and A. Interesting thought is that it seemed to have missed the F and instead measures a lot of activity in F#, which is not in key. This even though the F-chord is part of the song.
 
+
+### First impression regarding timbre original and cover songs
+
+```{r} 
+
+OvC %>%
+  mutate(
+    timbre =
+      map(
+        segments,
+        compmus_summarise,
+        timbre,
+        method = "mean"
+      )
+  ) %>%
+  select(Original, timbre) %>%
+  compmus_gather_timbre() %>%
+  ggplot(aes(x = basis, y = value, fill = Original)) +
+  geom_violin() +
+  scale_fill_viridis_d() +
+  labs(x = "Spotify Timbre Coefficients", y = "", fill = "Orginal")
+
+```
+
+
+***
+
+We see that the distribution for the timbre features really is all over the place. The timbre for C01 and C02 are centered, and the at the end they seem to be more centered as well. As I have no clear interpretation of what these Timber features entail I'll try to see if referring to this plot we can analyse the songs regarding to the rest of the Corpus. 
+
+
+### Timbre for Sound of Silence 
+
+```{r}
+TimbreSaG <-
+  get_tidy_audio_analysis("3YfS47QufnLDFA71FUsgCM") %>% # Change URI.
+  compmus_align(bars, segments) %>%                     # Change `bars`
+  select(bars) %>%                                      #   in all three
+  unnest(bars) %>%                                      #   of these lines.
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  ) %>%
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  )
+
+TimbreSaG <- TimbreSaG %>%
+  compmus_gather_timbre() %>%
+  mutate(song = "Simon and Garfunkel")
+
+TimbreDisturbed <-
+  Disturbed %>% # Change URI.
+  compmus_align(bars, segments) %>%                     # Change `bars`
+  select(bars) %>%                                      #   in all three
+  unnest(bars) %>%                                      #   of these lines.
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  ) %>%
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  )
+
+TimbreDisturbed <- TimbreDisturbed %>%
+  compmus_gather_timbre() %>%
+  mutate(song = "Disturbed")
+
+
+bind_rows(TimbreSaG, TimbreDisturbed) %>%
+  ggplot(
+    aes(
+     x = start + duration / 2,
+      width = duration,
+      y = basis,
+      fill = value
+    )
+  )+
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  scale_fill_viridis_c() +          
+  facet_wrap(~song, scales = "free") +
+  theme_classic()
+  
+# timbreSaG <- SaG %>%
+#   compmus_align(bars, segments) %>%                     # Change `bars`
+#   select(bars) %>%                                      #   in all three
+#   unnest(bars) %>%                                      #   of these lines.
+#   mutate(
+#     pitches =
+#       map(segments,
+#         compmus_summarise, pitches,
+#         method = "rms", norm = "euclidean"              # Change summary & norm.
+#       )
+#   ) %>%
+#   mutate(
+#     timbre =
+#       map(segments,
+#         compmus_summarise, timbre,
+#         method = "rms", norm = "euclidean"              # Change summary & norm.
+#       )
+#   ) %>% 
+#   mutate(song = "Simon and Garfunkel")
+# 
+# timbreDist <- Disturbed %>%
+#   compmus_align(bars, segments) %>%                     # Change `bars`
+#   select(bars) %>%                                      #   in all three
+#   unnest(bars) %>%                                      #   of these lines.
+#   mutate(
+#     pitches =
+#       map(segments,
+#         compmus_summarise, pitches,
+#         method = "rms", norm = "euclidean"              # Change summary & norm.
+#       )
+#   ) %>%
+#   mutate(
+#     timbre =
+#       map(segments,
+#         compmus_summarise, timbre,
+#         method = "rms", norm = "euclidean"              # Change summary & norm.
+#       )
+#   ) %>% 
+#   mutate(song = "Disturbed")
+# 
+# bind_rows(timbreSaG , timbreDist) %>%
+#   ggplot(
+#     aes(
+#      x = start + duration / 2,
+#       width = duration,
+#       y = basis,
+#       fill = value
+#     )
+#   )+
+#   geom_tile() +
+#   labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+#   scale_fill_viridis_c() +          
+#   facet_wrap(~song, scales = "free") +
+#   theme_classic()
+  
+
+
+```
+
+
+
+***
+
+We see some expected behavior for the timbre analysis. C01 and C02 are quite strongly and consistently represented. Something that is normal for the corpus. Interesting is the clear build of in representation of timbre features. They seems to have relatively high presence of timbre features up to C05. Which is not necessarily to be expected looking at the previous graph. 
+
+
+### Timbre for Knocking on Heavens door.
 
 ```{r timbre, echo=FALSE}
+
 timbredylan <- dylan %>%
   compmus_gather_timbre() %>%
-  mutate(song = "dylan")
+  mutate(song = "Bob Dylan")
 
 timbreclapton <- clapton %>%
   compmus_gather_timbre() %>%
-  mutate(song = "clapton")
+  mutate(song = "Eric Clapton")
 
 gunsnrosestimbre <-gunsnroses %>%
   compmus_gather_timbre()%>%
-  mutate(song = "gunsnroses")
+  mutate(song = "Guns 'n roses ")
 
 bind_rows(timbredylan, timbreclapton, gunsnrosestimbre) %>%
   ggplot(
@@ -881,7 +814,7 @@ bind_rows(timbredylan, timbreclapton, gunsnrosestimbre) %>%
   geom_tile() +
   labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
   scale_fill_viridis_c() +          
-  facet_wrap((~song))
+  facet_wrap(~song, scales = "free") +
   theme_classic()
   
 
@@ -889,15 +822,16 @@ bind_rows(timbredylan, timbreclapton, gunsnrosestimbre) %>%
 ```
 
 *** 
-We can see a bigger magnitude for the guns n roses song in more pitches than for the other two songs. This is to be expected hwne listening to these songs. The guns n roses version has the most varriation in it, and actually sounds "biggest". The clapton verson is much more calm and steady. Where the Dylan version is actual pretty quite and steady. Which is since its much smaller length also to be expected.
 
+We can see a bigger magnitude for the Guns 'n Roses song in more timbre feautures than for the other two songs. This is to be expected when listening to these songs. The Guns 'n Roses version has the most variation in it, and actually sounds "biggest". The Eric Clapton version is much more calm and steady. Where the Bob Dylan version is actual pretty quite and steady. Which is since its much smaller length also to be expected. Interesting as well though is that these songs show significantly more intensity in a lot of Timbe features than the Sound of Silence versions. This however might also be a relative thing, considering the consistencty we noticed in the Chroma and Timbre self similarity graphs we saw in the previous part for the Sound of Silence
 
 
 Some chords {.storyboard}
 =======================================================================
 
-### Some chords
-```{r}
+### Chord Analysis for Knocking on Heavens door
+
+```{r include = FALSE}
 
 circshift <- function(v, n) {
   if (n == 0) v else c(tail(v, n), head(v, -n))
@@ -1091,10 +1025,9 @@ Gunsplot <- plot3 %>%
 ```{r}
 combinedchords <-
   Plot1 %>%
-  mutate(song = " Dylan") %>%
-  bind_rows(Plot2 %>% mutate(song =  "Eric")) %>%
-  bind_rows(plot3 %>% mutate(song =  "guns"))
-
+  mutate(song = "Bob Dylan") %>%
+  bind_rows(Plot2 %>% mutate(song = "Eric Clapton")) %>%
+  bind_rows(plot3 %>% mutate(song = "Guns 'n Roses"))
 
 
 ```
@@ -1117,4 +1050,452 @@ combinedchords %>%
 
 ***
 
-I am currently working on a different way to extract the most dominant/stronger occuring chords from a variaty of sorts. If I manage this I will include this here, otherwise some extra chords graphs will be added from a variety of songs from the corpus. 
+Having looked at the pitches for the Sound of Silence, I think it is now interesting to look at keys and chords for Guns 'n Roses, since they differ from each other. First we'll have a look at the chords used in the versions and see if they match the expected keys.
+
+Now google tells me that for both the Bob Dylan and Eric Clapton version the chords should be G, D, Am and C. The Guns 'n Roses version has 
+
+
+
+### Key analysis
+
+
+```{r}
+Dylan_key <-
+  get_tidy_audio_analysis("6HSXNV0b4M4cLJ7ljgVVeh") %>%
+  compmus_align(sections, segments) %>%
+  select(sections) %>%
+  unnest(sections) %>%
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "mean", norm = "manhattan"
+      ))
+    
+Eric_key <-
+  get_tidy_audio_analysis("5uhvUuQciVrP0p48NqSHaq") %>%
+  compmus_align(sections, segments) %>%
+  select(sections) %>%
+  unnest(sections) %>%
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "mean", norm = "manhattan"
+      )
+  )
+Guns_key <-
+  get_tidy_audio_analysis("4JiEyzf0Md7KEFFGWDDdCr") %>%
+  compmus_align(sections, segments) %>%
+  select(sections) %>%
+  unnest(sections) %>%
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "mean", norm = "manhattan"
+      )
+  )
+
+
+Plotkey1 <- Dylan_key %>% 
+  compmus_match_pitch_template(
+    key_templates,         # Change to chord_templates if descired
+    method = "manhattan",  # Try different distance metrics
+    norm = "manhattan"     # Try different norms
+  )  
+
+Plotkey2 <- Eric_key %>% 
+  compmus_match_pitch_template(
+    key_templates,         # Change to chord_templates if descired
+    method = "manhattan",  # Try different distance metrics
+    norm = "manhattan"     # Try different norms
+  )  
+
+plotkey3 <- Guns_key %>% 
+  compmus_match_pitch_template(
+    key_templates,         # Change to chord_templates if descired
+    method = "manhattan",  # Try different distance metrics
+    norm = "manhattan"     # Try different norms
+  ) 
+
+combinedkeys<-
+  Plotkey1 %>%
+  mutate(song = "Bob Dylan") %>%
+  bind_rows(Plotkey2 %>% mutate(song =  "Eric Clapton")) %>%
+  bind_rows(plotkey3 %>% mutate(song =  "Guns 'n Roses"))
+
+combinedkeys %>%
+  ggplot(
+    aes(x = start + duration / 2, width = duration, y = name, fill = d)
+  ) +
+  geom_tile() +
+  scale_fill_viridis_c() +
+  theme_classic() +
+  labs(x = "Time (s)", y = "") +
+  facet_wrap(~song, scales = "free")
+
+```
+
+
+***
+
+Maybe even more interesting than the chords used in the different songs are the keys. As we know the Guns 'n Roses version is one of the few songs in the corpus that differs in key from the original version. The difference in key is also clearly visible. Interesting I think is the that we can see that the Bob Dylan version and the Eric Claptoon version show very similar keys, but instead of showing a general G-major (relative E-minor) it shows a very strong appearance at Gb-major key (relative Eb-minor), which is in fact the F#-major that the Guns 'n Roses version is in, nonetheless the strength remains quite high at the actual G-major key. Similarly the Gb-major/D#-minor are present for the Guns ' n Roses version, but we see at least as strong magnitudes around C-minor and C#-minor. Considering the distance between these keys (in the circle of fifths) I am not entirely certain why the key-analyses shows this representation.
+
+
+``` {r}
+get_conf_mat <- function(fit) {
+  outcome <- .get_tune_outcome_names(fit)
+  fit %>% 
+    collect_predictions() %>% 
+    conf_mat(truth = outcome, estimate = .pred_class)
+}  
+
+get_pr <- function(fit) {
+  fit %>% 
+    conf_mat_resampled() %>% 
+    group_by(Prediction) %>% mutate(precision = Freq / sum(Freq)) %>% 
+    group_by(Truth) %>% mutate(recall = Freq / sum(Freq)) %>% 
+    ungroup() %>% filter(Prediction == Truth) %>% 
+    select(class = Prediction, precision, recall)
+}  
+
+```
+
+Machine learning{.storyboard}
+=====================================================================
+
+### Classifier
+
+
+```{r}
+Original <-
+  get_playlist_audio_features(
+    "",
+    "3rB3GIfRb91ranh0Bb0TSu"
+  ) 
+Covers <-
+  get_playlist_audio_features(
+    "",
+    "5Yn7G1TarUYC4dJY6IMqZD"
+  ) 
+OvC <-
+  Original %>%
+  mutate(Original = "Yes") %>%
+  bind_rows(Covers %>% mutate(Original= "No"))
+
+Magnus_Corpus_features <-
+  OvC %>%  # For your portfolio, change this to the name of your corpus.
+  add_audio_analysis() %>% 
+  mutate(
+    Original = factor(Original),
+    segments = map2(segments, key, compmus_c_transpose),
+    pitches =
+      map(
+        segments,
+        compmus_summarise, pitches,
+        method = "mean", norm = "manhattan"
+      ),
+    timbre =
+      map(
+        segments,
+        compmus_summarise, timbre,
+        method = "mean",
+      )
+  ) %>%
+  mutate(pitches = map(pitches, compmus_normalise, "clr")) %>%
+  mutate_at(vars(pitches, timbre), map, bind_rows) %>%
+  unnest(cols = c(pitches, timbre))
+
+```
+
+
+```{r}
+
+magnus_corpus_recipe <-
+  recipe(Original ~
+      danceability +
+      energy +
+      loudness +
+      speechiness +
+      acousticness +
+      instrumentalness +
+      liveness +
+      valence +
+      tempo +
+      duration +
+      C + `C#|Db` + D + `D#|Eb` +
+      E + `F` + `F#|Gb` + G +
+      `G#|Ab` + A + `A#|Bb` + B +
+      c01 + c02 + c03 + c04 + c05 + c06 +
+      c07 + c08 + c09 + c10 + c11 + c12,
+    data = Magnus_Corpus_features,          # Use the same name as the previous block.
+  ) %>%
+  step_center(all_predictors()) %>%
+  step_scale(all_predictors())      # Converts to z-scores.
+  # step_range(all_predictors())    # Sets range to [0, 1].
+
+
+```
+
+```{r}
+magnus_corpus_cv <- Magnus_Corpus_features %>% vfold_cv(5)
+
+```
+
+```{r}
+
+knn_model <-
+  nearest_neighbor(neighbors = 1) %>%
+  set_mode("classification") %>% 
+  set_engine("kknn")
+magnus_corpus_knn <- 
+  workflow() %>% 
+  add_recipe(magnus_corpus_recipe) %>% 
+  add_model(knn_model) %>% 
+  fit_resamples(
+    magnus_corpus_cv, 
+    control = control_resamples(save_pred = TRUE)
+  )
+
+```
+```{r}
+heatmap <-magnus_corpus_knn %>% get_conf_mat() %>% autoplot(type = "heatmap")
+heatmap
+```
+ 
+***
+
+My classifier trying to predict whether something is a original song or not does not do well at all. It has more or less a random accuracy. This is ofcourse not weird. There are no actual features that can predict whether the song is an original or not. We might include the date (which would of course be a very good indication) but this would nullafy the intention of the process, which is to see if there is a notable difference between original and cover songs. What might be an interesting feature to be added to the spotify API might be sound recording quality (if there could be such a measurement). This would probably be a good indication for when it was recorded and therefore for whether its a cover song or not.
+
+### Important feature analyses
+
+
+```{r}
+forest_model <-
+  rand_forest() %>%
+  set_mode("classification") %>% 
+  set_engine("ranger", importance = "impurity")
+magnus_corpus_forest <- 
+  workflow() %>% 
+  add_recipe(magnus_corpus_recipe) %>% 
+  add_model(forest_model) %>% 
+  fit_resamples(
+    magnus_corpus_cv, 
+    control = control_resamples(save_pred = TRUE)
+  )
+
+```
+
+```{r}
+
+#magnus_corpus_forest %>% get_pr()
+
+```
+
+```{r}
+workflow <- workflow() %>% 
+  add_recipe(magnus_corpus_recipe) %>% 
+  add_model(forest_model) %>% 
+  fit(Magnus_Corpus_features) %>% 
+  pluck("fit", "fit", "fit") %>%
+  ranger::importance() %>% 
+  enframe() %>% 
+  mutate(name = fct_reorder(name, value)) %>% 
+  ggplot(aes(name, value)) + 
+  geom_col() + 
+  coord_flip() +
+  theme_minimal() +
+  labs(x = NULL, y = "Importance")
+
+```
+
+```{r}
+Magnus_features <- Magnus_Corpus_features %>%
+  ggplot(aes(x = acousticness, y = loudness, colour = Original, size = duration)) +
+  geom_point(alpha = 0.8) +
+  scale_color_viridis_d() +
+  labs(
+    x = "acousticness",
+    y = "Loudness",
+    size = "duration",
+    colour = "Original"
+  )
+
+```
+
+```{r}
+lay <- rbind(c(1,1,1),
+             c(1,1,1),
+             c(2,2,2))
+grid.arrange(workflow, Magnus_features, layout_matrix = lay)
+```
+
+***
+
+As can be seen here I've chosen to extracted features that I consider to be meaningful to people and have left out the C#|D (which was impossible to use since r would consider it a comment) and went for more indicating features, which I've plotted in the second graph. As can be seen the features are all over the place, however we see some small clusters of just Covers and of just Originals. I am assuming that these smaller clusters are the reason that some of the classification was done correctly. Lets see if we have some more luck with the clustering!
+
+
+```{r}
+magnus_corpus_forest %>% get_pr()
+
+```
+
+
+### Clustering
+
+```{r}
+Magnus_Corpus_clustering <- Magnus_Corpus %>% mutate(song = make.unique(song)) %>%
+  add_audio_analysis() %>%
+  mutate(
+    segments = map2(segments, key, compmus_c_transpose),
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "mean", norm = "manhattan"
+      ),
+    timbre =
+      map(
+        segments,
+        compmus_summarise, timbre,
+        method = "mean"
+      )
+  ) %>%
+  mutate(pitches = map(pitches, compmus_normalise, "clr")) %>%
+  mutate_at(vars(pitches, timbre), map, bind_rows) %>%
+  unnest(cols = c(pitches, timbre))
+
+#Magnus_Corpus_clustering
+
+```
+
+```{r}
+
+Magnus_Corpus_juice  <-
+  recipe(
+    song ~
+      danceability +
+      energy +
+      loudness +
+      speechiness +
+      acousticness +
+      instrumentalness +
+      liveness +
+      valence +
+      tempo +
+      duration +
+      C + `C#|Db` + D + `D#|Eb` +
+      E + `F` + `F#|Gb` + G +
+      `G#|Ab` + A + `A#|Bb` + B +
+      c01 + c02 + c03 + c04 + c05 + c06 +
+      c07 + c08 + c09 + c10 + c11 + c12,
+    data = Magnus_Corpus_clustering 
+  ) %>%
+  step_center(all_predictors()) %>%
+  step_scale(all_predictors()) %>% 
+  # step_range(all_predictors()) %>% 
+  prep(Magnus_Corpus_clustering  %>% mutate(song = str_trunc(song, 80))) %>%
+  juice() %>%
+  column_to_rownames("song")
+```
+```{r}
+#Magnus_Corpus %>% mutate(song = make.unique(song))
+
+
+```
+
+```{r}
+Corpus_dist <- dist(Magnus_Corpus_juice, method = "manhattan")
+```
+
+```{r}
+Corpus_dist %>% 
+  hclust(method = "complete") %>% # Try single, average, and complete.
+  dendro_data() %>%
+  ggdendrogram(rotate = TRUE)
+  
+```
+
+
+***
+We can observe some of the songs to be in the same clusters. In general I think it would be a reasonable outcome of the clustering, most songs are in at least closely related clusters. I am not sure if this is a reasonable outcome, but I would say that it is the best we could have hoped for. Interesting is for example the All along the watchtower which is isolated at the bottom and very far away from the original version. Also interesting is looking back at the knocking on heavens door songs, where 2 have been clustered next to eachother (Dylan and Eric Clapton) but the third has been set apart (Guns 'n Roses). Which is not that strange since the diffent key used, as well as the different chords.
+
+
+
+Listen in!
+========================================================
+
+### Listen to the tunes I used to get a better idea!
+<h1> knocking on heavenns door </h1> 
+
+```
+{=html}
+<object data="https://open.spotify.com/track/6HSXNV0b4M4cLJ7ljgVVeh?si=3HqA7QdITUeF1iPw97yvjw" width="280" height="140">
+    <embed src="https://open.spotify.com/track/6HSXNV0b4M4cLJ7ljgVVeh?si=3HqA7QdITUeF1iPw97yvjw" width="280" height="140"></embed>
+</object>
+
+{=html}
+<object data="https://open.spotify.com/track/5uhvUuQciVrP0p48NqSHaq?si=TJwL_QxqRYmQTKdhoWElxQ" width="280" height="140">
+    <embed src="https://open.spotify.com/track/5uhvUuQciVrP0p48NqSHaq?si=TJwL_QxqRYmQTKdhoWElxQ" width="280" height="140"></embed>
+</object>
+
+{=html}
+<object data="https://open.spotify.com/track/4JiEyzf0Md7KEFFGWDDdCr?si=MsolSm2tSy-uFXama15vgA" width="280" height="140">
+    <embed src="https://open.spotify.com/track/4JiEyzf0Md7KEFFGWDDdCr?si=MsolSm2tSy-uFXama15vgA" width="280" height="140"></embed>
+</object>
+
+```
+
+<h1> Sound of Silence </h1> 
+
+```
+{=html}
+<object data="https://open.spotify.com/track/3YfS47QufnLDFA71FUsgCM?si=nBO6KHfMRzGvoPvaoSP3zA" width="280" height="140">
+    <embed src="https://open.spotify.com/track/3YfS47QufnLDFA71FUsgCM?si=nBO6KHfMRzGvoPvaoSP3zA" width="280" height="140"></embed>
+</object>
+
+{=html}
+<object data="https://open.spotify.com/embed/track/1Cj2vqUwlJVG27gJrun92y?si=DPPk7RADRUenE1zWq-uXGw" width="280" height="140">
+    <embed src="https://open.spotify.com/embed/track/1Cj2vqUwlJVG27gJrun92y?si=DPPk7RADRUenE1zWq-uXGw" width="280" height="140"></embed>
+</object>
+
+
+```
+
+
+<!-- ```{r} -->
+<!-- OvC%>% -->
+<!--   mutate( -->
+<!--     sections = -->
+<!--       map( -->
+<!--         sections,                                    # sections or segments -->
+<!--         summarise_at, -->
+<!--         vars(tempo, loudness, duration),             # features of interest -->
+<!--         list(section_mean = mean, section_sd = sd)   # aggregation functions -->
+<!--       ) -->
+<!--   ) %>% -->
+<!--   unnest(sections) %>% -->
+<!--   ggplot( -->
+<!--     aes( -->
+<!--       x = tempo, -->
+<!--       y = tempo_section_sd, -->
+<!--       colour = Original, -->
+<!--       alpha = loudness -->
+<!--     ) -->
+<!--   ) + -->
+<!--   geom_point(aes(size = duration / 60)) + -->
+<!--   geom_rug() + -->
+<!--   theme_minimal() + -->
+<!--   ylim(0, 5) + -->
+<!--   labs( -->
+<!--     x = "Mean Tempo (bpm)", -->
+<!--     y = "SD Tempo", -->
+<!--     colour = "Original", -->
+<!--     size = "Duration (min)", -->
+<!--     alpha = "Volume (dBFS)" -->
+<!--   ) -->
+
+
+<!-- ``` -->
+
+
